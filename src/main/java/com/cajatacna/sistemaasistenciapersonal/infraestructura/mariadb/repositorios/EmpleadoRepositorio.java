@@ -19,13 +19,17 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
     private final Connection conexion;
 
     public EmpleadoRepositorio() {
-        conexion = Conexion.getConnection();
+        try {
+            conexion = Conexion.getConnection();
+        } catch (SQLException excpcion) {
+            throw new MariaDBExcepcion(excpcion.getMessage());
+        }
     }
 
     @Override
     public void crear(Empleado empleado) {
         try {
-            CallableStatement callableStatement = conexion
+            CallableStatement callableStatement = this.conexion
                     .prepareCall("CALL agregar_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             callableStatement.setString(1, empleado.getNombre());
             callableStatement.setString(2, empleado.getApellido());
@@ -49,7 +53,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
     @Override
     public void actualizar(Empleado empleado) {
         try {
-            CallableStatement callableStatement = conexion
+            CallableStatement callableStatement = this.conexion
                     .prepareCall("CALL actualizar_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             callableStatement.setInt(1, empleado.getId());
             callableStatement.setString(1, empleado.getNombre());
@@ -71,7 +75,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
     @Override
     public void eliminar(Empleado empleado) {
         try {
-            CallableStatement callableStatement = conexion.prepareCall("CALL eliminar_empleado(?)");
+            CallableStatement callableStatement = this.conexion.prepareCall("CALL eliminar_empleado(?)");
             callableStatement.setInt(1, empleado.getId());
 
             callableStatement.execute();
@@ -84,7 +88,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
     @Override
     public Empleado obtenerPorId(int id) {
         try {
-            CallableStatement callableStatement = conexion.prepareCall("CALL buscar_empleado_por_id(?)");
+            CallableStatement callableStatement = this.conexion.prepareCall("CALL buscar_empleado_por_id(?)");
             callableStatement.setInt(1, id);
 
             ResultSet resultSet = callableStatement.executeQuery();
@@ -103,7 +107,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
     @Override
     public Empleado obtenerPorCredenciales(String email, String contrasena) {
         try {
-            CallableStatement callableStatement = conexion.prepareCall("CALL login_empleado(?, ?)");
+            CallableStatement callableStatement = this.conexion.prepareCall("CALL login_empleado(?, ?)");
             callableStatement.setString(1, email);
             callableStatement.setString(2, contrasena);
 
@@ -123,12 +127,12 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
     @Override
     public ArrayList<Empleado> obtenerTodos(String criterioBusqueda) {
         try {
-            CallableStatement callableStatement = conexion.prepareCall("CALL BuscarEmpleados(?)");
+            CallableStatement callableStatement = this.conexion.prepareCall("CALL BuscarEmpleados(?)");
             callableStatement.setString(1, criterioBusqueda);
 
             ResultSet resultSet = callableStatement.executeQuery();
 
-            ArrayList<Empleado> empleados = new ArrayList<Empleado>();
+            ArrayList<Empleado> empleados = new ArrayList<>();
 
             while (resultSet.next()) {
                 empleados.add(this.mapearUsuario(resultSet));

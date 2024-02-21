@@ -16,7 +16,11 @@ public class AreaRepositorio implements IAreaRepositorio {
     private final Connection conexion;
 
     public AreaRepositorio() {
-        conexion = Conexion.getConnection();
+        try {
+            conexion = Conexion.getConnection();
+        } catch (SQLException excpcion) {
+            throw new MariaDBExcepcion(excpcion.getMessage());
+        }
     }
 
     @Override

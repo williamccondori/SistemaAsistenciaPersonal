@@ -16,7 +16,11 @@ public class GeneroRepositorio implements IGeneroRepositorio {
     private final Connection conexion;
 
     public GeneroRepositorio() {
-        conexion = Conexion.getConnection();
+        try {
+            conexion = Conexion.getConnection();
+        } catch (SQLException excpcion) {
+            throw new MariaDBExcepcion(excpcion.getMessage());
+        }
     }
 
     @Override

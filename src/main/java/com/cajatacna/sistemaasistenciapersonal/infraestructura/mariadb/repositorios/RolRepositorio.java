@@ -16,7 +16,11 @@ public class RolRepositorio implements IRolRepositorio {
     private final Connection conexion;
 
     public RolRepositorio() {
-        conexion = Conexion.getConnection();
+        try {
+            conexion = Conexion.getConnection();
+        } catch (SQLException excpcion) {
+            throw new MariaDBExcepcion(excpcion.getMessage());
+        }
     }
 
     @Override
