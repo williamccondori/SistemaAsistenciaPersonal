@@ -2,6 +2,7 @@ package com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.reposito
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,20 +24,61 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
 
     @Override
     public void crear(Empleado empleado) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Crear'");
+        try {
+            CallableStatement callableStatement = conexion
+                    .prepareCall("CALL agregar_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            callableStatement.setString(1, empleado.getNombre());
+            callableStatement.setString(2, empleado.getApellido());
+            callableStatement.setString(3, empleado.getContrasena());
+            callableStatement.setBytes(4, empleado.getFoto());
+            callableStatement.setDate(5, (Date) empleado.getFechaNacimiento());
+            callableStatement.setInt(6, empleado.getGenero().getId());
+            callableStatement.setString(7, empleado.getDireccion());
+            callableStatement.setString(8, empleado.getTelefono());
+            callableStatement.setString(9, empleado.getEmail());
+            callableStatement.setInt(10, empleado.getRol().getId());
+            callableStatement.setInt(11, empleado.getArea().getId());
+
+            callableStatement.execute();
+
+        } catch (SQLException excpcion) {
+            throw new MariaDBExcepcion(excpcion.getMessage());
+        }
     }
 
     @Override
     public void actualizar(Empleado empleado) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Actualizar'");
+        try {
+            CallableStatement callableStatement = conexion
+                    .prepareCall("CALL actualizar_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            callableStatement.setInt(1, empleado.getId());
+            callableStatement.setString(1, empleado.getNombre());
+            callableStatement.setString(2, empleado.getApellido());
+            callableStatement.setString(3, empleado.getContrasena());
+            callableStatement.setBytes(4, empleado.getFoto());
+            callableStatement.setDate(5, (Date) empleado.getFechaNacimiento());
+            callableStatement.setInt(6, empleado.getGenero().getId());
+            callableStatement.setString(7, empleado.getDireccion());
+            callableStatement.setString(8, empleado.getTelefono());
+            callableStatement.setString(9, empleado.getEmail());
+            callableStatement.setInt(10, empleado.getRol().getId());
+            callableStatement.setInt(11, empleado.getArea().getId());
+        } catch (SQLException excpcion) {
+            throw new MariaDBExcepcion(excpcion.getMessage());
+        }
     }
 
     @Override
     public void eliminar(Empleado empleado) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Eliminar'");
+        try {
+            CallableStatement callableStatement = conexion.prepareCall("CALL eliminar_empleado(?)");
+            callableStatement.setInt(1, empleado.getId());
+
+            callableStatement.execute();
+
+        } catch (SQLException excpcion) {
+            throw new MariaDBExcepcion(excpcion.getMessage());
+        }
     }
 
     @Override
@@ -79,9 +121,10 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
     }
 
     @Override
-    public ArrayList<Empleado> obtenerTodos() {
+    public ArrayList<Empleado> obtenerTodos(String criterioBusqueda) {
         try {
-            CallableStatement callableStatement = conexion.prepareCall("CALL BuscarEmpleados('')");
+            CallableStatement callableStatement = conexion.prepareCall("CALL BuscarEmpleados(?)");
+            callableStatement.setString(1, criterioBusqueda);
 
             ResultSet resultSet = callableStatement.executeQuery();
 

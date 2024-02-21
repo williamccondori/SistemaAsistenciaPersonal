@@ -1,7 +1,5 @@
 package com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.empleados.crearEmpleado;
 
-import javax.inject.Inject;
-
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Area;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Empleado;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Genero;
@@ -14,14 +12,10 @@ import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IRolReposito
 
 public class CrearEmpleadoCommandHandler {
 
-    @Inject
-    private IEmpleadoRepositorio empleadoRepositorio;
-    @Inject
-    private IGeneroRepositorio generoRepositorio;
-    @Inject
-    private IRolRepositorio rolRepositorio;
-    @Inject
-    private IAreaRepositorio areaRepositorio;
+    private final IEmpleadoRepositorio empleadoRepositorio;
+    private final IGeneroRepositorio generoRepositorio;
+    private final IRolRepositorio rolRepositorio;
+    private final IAreaRepositorio areaRepositorio;
 
     public CrearEmpleadoCommandHandler(
             IEmpleadoRepositorio empleadoRepositorio,
@@ -35,17 +29,17 @@ public class CrearEmpleadoCommandHandler {
     }
 
     public void handle(CrearEmpleadoCommand command) {
-        Genero genero = this.generoRepositorio.ObtenerPorId(command.getGeneroId());
+        Genero genero = this.generoRepositorio.obtenerPorId(command.getGeneroId());
         if (genero == null) {
             throw new NoEncontradoExcepcion("Género");
         }
 
-        Rol rol = this.rolRepositorio.ObtenerPorId(command.getRolId());
+        Rol rol = this.rolRepositorio.obtenerPorId(command.getRolId());
         if (rol == null) {
             throw new NoEncontradoExcepcion("Rol");
         }
 
-        Area area = this.areaRepositorio.ObtenerPorId(command.getAreaId());
+        Area area = this.areaRepositorio.obtenerPorId(command.getAreaId());
         if (area == null) {
             throw new NoEncontradoExcepcion("Área");
         }

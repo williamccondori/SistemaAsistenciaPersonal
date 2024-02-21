@@ -15,5 +15,5 @@ public interface IEmpleadoRepositorio {
 
     Empleado obtenerPorCredenciales(String email, String contrasena);
 
-    ArrayList<Empleado> obtenerTodos();
+    ArrayList<Empleado> obtenerTodos(String criterioBusqueda);
 }
