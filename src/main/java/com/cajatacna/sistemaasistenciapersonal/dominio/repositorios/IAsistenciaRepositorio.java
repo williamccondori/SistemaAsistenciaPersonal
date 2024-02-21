@@ -1,5 +1,5 @@
 package com.cajatacna.sistemaasistenciapersonal.dominio.repositorios;
 
-public interface AsistenciaRepositorio {
+public interface IAsistenciaRepositorio {
     
 }

@@ -7,26 +7,26 @@ import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Empleado;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Genero;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Rol;
 import com.cajatacna.sistemaasistenciapersonal.dominio.excepciones.NoEncontradoExcepcion;
-import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.AreaRepositorio;
-import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.EmpleadoRepositorio;
-import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.GeneroRepositorio;
-import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.RolRepositorio;
+import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IAreaRepositorio;
+import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IEmpleadoRepositorio;
+import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IGeneroRepositorio;
+import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IRolRepositorio;
 
 public class ActualizarEmpeladoCommandHandler {
     @Inject
-    private EmpleadoRepositorio empleadoRepositorio;
+    private IEmpleadoRepositorio empleadoRepositorio;
     @Inject
-    private GeneroRepositorio generoRepositorio;
+    private IGeneroRepositorio generoRepositorio;
     @Inject
-    private RolRepositorio rolRepositorio;
+    private IRolRepositorio rolRepositorio;
     @Inject
-    private AreaRepositorio areaRepositorio;
+    private IAreaRepositorio areaRepositorio;
 
     public ActualizarEmpeladoCommandHandler(
-            EmpleadoRepositorio empleadoRepositorio,
-            GeneroRepositorio generoRepositorio,
-            RolRepositorio rolRepositorio,
-            AreaRepositorio areaRepositorio) {
+            IEmpleadoRepositorio empleadoRepositorio,
+            IGeneroRepositorio generoRepositorio,
+            IRolRepositorio rolRepositorio,
+            IAreaRepositorio areaRepositorio) {
         this.empleadoRepositorio = empleadoRepositorio;
         this.generoRepositorio = generoRepositorio;
         this.rolRepositorio = rolRepositorio;

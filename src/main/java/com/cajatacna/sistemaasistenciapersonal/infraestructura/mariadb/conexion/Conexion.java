@@ -1,4 +1,4 @@
-package com.cajatacna.sistemaasistenciapersonal.infraestructura.conexion;
+package com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.conexion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
