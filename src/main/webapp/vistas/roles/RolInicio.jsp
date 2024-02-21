@@ -1,4 +1,4 @@
-<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.areas.AreaRespuestaModelo"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.roles.RolRespuestaModelo"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Areas</title>
+        <title>Roles</title>
 
         <!-- Custom fonts for this template-->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -46,17 +46,17 @@
                 </div>
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                       aria-expanded="true" aria-controls="collapseUtilities">
+                       aria-expanded="true" aria-controles="collapseUtilities">
                         <i class="fas fa-fw fa-user"></i>
-                        <span>Areas</span>
+                        <span>Roles</span>
                     </a>
                     <div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Areas</h6>
-                            <a class="collapse-item active" href="<%=request.getContextPath()%>/areas">Listar</a>
-                            <a class="collapse-item" href="<%=request.getContextPath()%>/roles">Roles</a>
-                            <a class="collapse-item" href="<%=request.getContextPath()%>/generos">Géneros</a>
+                            <h6 class="collapse-header">Roles</h6>
+                            <a class="collapse-item active" href="utilities-color.html">Roles</a>
+                            <a class="collapse-item" href="utilities-border.html">Roles</a>
+                            <a class="collapse-item" href="utilities-animation.html">Áreas</a>
                         </div>
                     </div>
                 </li>
@@ -68,7 +68,7 @@
                 </div>
                 <li class="nav-item">
                     <a class="nav-link" href="charts.html">
-                        <i class="fas fa-fw fa-chart-area"></i>
+                        <i class="fas fa-fw fa-chart-rol"></i>
                         <span>Charts</span></a>
                 </li>
 
@@ -304,11 +304,11 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-4 text-gray-800">Areas</h1>
+                        <h1 class="h3 mb-4 text-gray-800">Roles</h1>
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Todos los areas</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Todos los roles</h6>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -321,12 +321,12 @@
                                         </thead>
                                         <tbody>
                                             <%
-                                                ArrayList<AreaRespuestaModelo> areas = (ArrayList<AreaRespuestaModelo>) request.getAttribute("areas");
-                                                for (AreaRespuestaModelo area : areas) {
+                                                ArrayList<RolRespuestaModelo> roles = (ArrayList<RolRespuestaModelo>) request.getAttribute("roles");
+                                                for (RolRespuestaModelo rol : roles) {
                                             %>
                                             <tr>
-                                                <td><%= area.getId()%></td>
-                                                <td><%= area.getNombre()%></td>
+                                                <td><%= rol.getId()%></td>
+                                                <td><%= rol.getNombre()%></td>
                                             </tr>
                                             <%
                                                 }
