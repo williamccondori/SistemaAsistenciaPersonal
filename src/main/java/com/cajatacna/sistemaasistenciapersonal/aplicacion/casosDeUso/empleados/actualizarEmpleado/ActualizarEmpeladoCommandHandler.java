@@ -34,7 +34,7 @@ public class ActualizarEmpeladoCommandHandler {
     }
 
     public void handle(ActualizarEmpleadoCommand command) {
-        Empleado empleado = this.empleadoRepositorio.ObtenerPorId(command.getId());
+        Empleado empleado = this.empleadoRepositorio.obtenerPorId(command.getId());
 
         if (empleado == null) {
             throw new NoEncontradoExcepcion("Empleado");
@@ -67,6 +67,6 @@ public class ActualizarEmpeladoCommandHandler {
         empleado.setRol(rol);
         empleado.setArea(area);
 
-        empleadoRepositorio.Actualizar(empleado);
+        empleadoRepositorio.actualizar(empleado);
     }
 }

@@ -5,6 +5,6 @@ import java.util.ArrayList;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Genero;
 
 public interface IGeneroRepositorio {
-    Genero ObtenerPorId(int id);
-    ArrayList<Genero> ObtenerTodos();
+    Genero obtenerPorId(int id);
+    ArrayList<Genero> obtenerTodos();
 }

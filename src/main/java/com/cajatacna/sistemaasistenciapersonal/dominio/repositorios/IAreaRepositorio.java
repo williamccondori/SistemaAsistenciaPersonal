@@ -5,6 +5,6 @@ import java.util.ArrayList;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Area;
 
 public interface IAreaRepositorio {
-    Area ObtenerPorId(int id);
-    ArrayList<Area> ObtenerTodos();
+    Area obtenerPorId(int id);
+    ArrayList<Area> obtenerTodos();
 }

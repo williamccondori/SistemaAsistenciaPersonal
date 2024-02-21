@@ -4,11 +4,6 @@ public class Rol {
     private int Id;
     private String Nombre;
 
-    public Rol(int Id, String Nombre) {
-        this.Id = Id;
-        this.Nombre = Nombre;
-    }
-
     public int getId() {
         return Id;
     }

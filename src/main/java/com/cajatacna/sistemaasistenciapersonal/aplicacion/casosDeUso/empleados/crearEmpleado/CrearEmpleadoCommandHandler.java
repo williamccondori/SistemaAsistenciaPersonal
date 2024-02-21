@@ -63,6 +63,6 @@ public class CrearEmpleadoCommandHandler {
         empleado.setRol(rol);
         empleado.setArea(area);
 
-        empleadoRepositorio.Crear(empleado);
+        empleadoRepositorio.crear(empleado);
     }
 }

@@ -14,12 +14,9 @@ public class IniciarSesionCommandHandler {
     }
 
     public Empleado handle(IniciarSesionCommand command) {
-        Empleado empleado = this.empleadoRepositorio.obtenerPorEmail(command.getEmail());
-        if (empleado == null) {
-            throw new AutenticacionExcepcion();
-        }
+        Empleado empleado = this.empleadoRepositorio.obtenerPorCredenciales(command.getEmail(), command.getContrasena());
 
-        if (!empleado.getContrasena().equals(command.getContrasena())) {
+        if (empleado == null) {
             throw new AutenticacionExcepcion();
         }
 

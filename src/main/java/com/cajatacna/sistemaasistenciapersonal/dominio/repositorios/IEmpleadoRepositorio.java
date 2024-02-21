@@ -13,7 +13,7 @@ public interface IEmpleadoRepositorio {
 
     Empleado obtenerPorId(int id);
 
-    Empleado obtenerPorEmail(String email);
+    Empleado obtenerPorCredenciales(String email, String contrasena);
 
     ArrayList<Empleado> obtenerTodos();
 }
