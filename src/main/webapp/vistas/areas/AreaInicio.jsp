@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Areas</title>
+        <title>Áreas</title>
 
         <!-- Custom fonts for this template-->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -48,13 +48,14 @@
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                        aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-fw fa-user"></i>
-                        <span>Areas</span>
+                        <span>Empleados</span>
                     </a>
                     <div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Areas</h6>
-                            <a class="collapse-item active" href="<%=request.getContextPath()%>/areas">Listar</a>
+                            <h6 class="collapse-header">Empleados</h6>
+                            <a class="collapse-item" href="<%=request.getContextPath()%>/empleados">Empleados</a>
+                            <a class="collapse-item active" href="<%=request.getContextPath()%>/areas">Áreas</a>
                             <a class="collapse-item" href="<%=request.getContextPath()%>/roles">Roles</a>
                             <a class="collapse-item" href="<%=request.getContextPath()%>/generos">Géneros</a>
                         </div>
@@ -304,11 +305,11 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-4 text-gray-800">Areas</h1>
+                        <h1 class="h3 mb-4 text-gray-800">Áreas</h1>
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Todos los areas</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Todas las áreas</h6>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

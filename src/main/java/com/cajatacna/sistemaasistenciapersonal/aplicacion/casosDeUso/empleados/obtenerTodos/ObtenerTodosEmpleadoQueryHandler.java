@@ -1,6 +1,7 @@
 package com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.empleados.obtenerTodos;
 
 import java.util.ArrayList;
+import java.util.Base64;
 
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.EmpleadoRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Empleado;
@@ -23,11 +24,9 @@ public class ObtenerTodosEmpleadoQueryHandler {
             EmpleadoRespuestaModelo modelo = new EmpleadoRespuestaModelo();
             modelo.setId(empleado.getId());
 
-            byte[] foto =  empleado.getFoto();
+            byte[] foto = empleado.getFoto();
             if (foto != null) {
-                String fotoBase64 = new String(foto);
-                fotoBase64 = "data:image/png;base64," + fotoBase64;
-                modelo.setFoto(fotoBase64);
+                modelo.setFoto(Base64.getEncoder().encodeToString(foto));
             }
 
             modelo.setNombre(empleado.getNombre());

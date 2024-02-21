@@ -46,17 +46,18 @@
                 </div>
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                       aria-expanded="true" aria-controles="collapseUtilities">
+                       aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-fw fa-user"></i>
-                        <span>Roles</span>
+                        <span>Empleados</span>
                     </a>
                     <div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Roles</h6>
-                            <a class="collapse-item active" href="utilities-color.html">Roles</a>
-                            <a class="collapse-item" href="utilities-border.html">Roles</a>
-                            <a class="collapse-item" href="utilities-animation.html">Áreas</a>
+                            <h6 class="collapse-header">Empleados</h6>
+                            <a class="collapse-item" href="<%=request.getContextPath()%>/empleados">Empleados</a>
+                            <a class="collapse-item" href="<%=request.getContextPath()%>/areas">Áreas</a>
+                            <a class="collapse-item active" href="<%=request.getContextPath()%>/roles">Roles</a>
+                            <a class="collapse-item" href="<%=request.getContextPath()%>/generos">Géneros</a>
                         </div>
                     </div>
                 </li>
