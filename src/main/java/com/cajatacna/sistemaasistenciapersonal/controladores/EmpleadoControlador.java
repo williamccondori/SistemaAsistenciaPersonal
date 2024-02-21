@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.empleados.obtenerTodosEmpleado.ObtenerTodosEmpleadoQueryHandler;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.empleados.obtenerTodos.ObtenerTodosEmpleadoQueryHandler;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.EmpleadoRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IEmpleadoRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.EmpleadoRepositorio;

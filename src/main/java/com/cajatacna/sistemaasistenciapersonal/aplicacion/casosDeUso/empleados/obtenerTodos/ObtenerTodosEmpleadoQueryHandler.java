@@ -1,4 +1,4 @@
-package com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.empleados.obtenerTodosEmpleado;
+package com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.empleados.obtenerTodos;
 
 import java.util.ArrayList;
 
