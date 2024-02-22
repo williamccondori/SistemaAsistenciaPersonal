@@ -12,7 +12,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Crear emlpleado</title>
+        <title>Actualizar emlpleado</title>
 
         <!-- Custom fonts for this template-->
         <link href="<%=request.getContextPath()%>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -161,7 +161,7 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-4 text-gray-800">Crear empleado</h1>
+                        <h1 class="h3 mb-4 text-gray-800">Actualizar empleado</h1>
 
                         <%
                             String mensajeError = (String) request.getAttribute("error");
@@ -179,7 +179,7 @@
                                 <h6 class="m-0 font-weight-bold text-primary">Registro</h6>
                             </div>
                             <div class="card-body"> 
-                                <form action="<%=request.getContextPath()%>/empleados/crear" method="post" enctype="multipart/form-data">
+                                <form action="<%=request.getContextPath()%>/empleados/actualizar" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-md-6"> 
                                             <div class="form-group">

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.roles.RolRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.RolServicio;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IRolRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.RolRepositorio;

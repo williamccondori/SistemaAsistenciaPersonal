@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.generos.GeneroRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.GeneroServicio;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IGeneroRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.GeneroRepositorio;

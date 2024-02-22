@@ -1,4 +1,4 @@
-package com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.areas;
+package com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos;
 
 public class AreaRespuestaModelo {
     private int id;

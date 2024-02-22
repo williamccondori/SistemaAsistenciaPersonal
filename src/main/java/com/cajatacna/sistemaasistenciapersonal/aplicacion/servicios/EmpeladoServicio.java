@@ -3,9 +3,9 @@ package com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios;
 import java.util.ArrayList;
 import java.util.Base64;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.ActualizarEmpleadoModelo;
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.CrearEmpleadoModelo;
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.EmpleadoRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoActualizarModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Area;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Empleado;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Genero;
@@ -33,6 +33,20 @@ public class EmpeladoServicio {
         this.areaRepositorio = areaRepositorio;
     }
 
+    public EmpleadoModelo autenticar(String email, String contrasena) {
+        Empleado empleado = this.empleadoRepositorio.obtenerPorCredenciales(email, contrasena);
+
+        if (empleado == null) {
+            throw new AplicacionExcepcion("No se encontró el empleado");
+        }
+
+        EmpleadoModelo modelo = new EmpleadoModelo();
+        modelo.setId(empleado.getId());
+        modelo.setEmail(empleado.getEmail());
+
+        return modelo;
+    }
+
     public ArrayList<EmpleadoRespuestaModelo> obtenerTodos() {
         ArrayList<EmpleadoRespuestaModelo> modelos = new ArrayList<>();
 
@@ -57,7 +71,7 @@ public class EmpeladoServicio {
         return modelos;
     }
 
-    public void crear(CrearEmpleadoModelo empleadoModelo) {
+    public void crear(EmpleadoModelo empleadoModelo) {
         Genero genero = this.generoRepositorio.obtenerPorId(empleadoModelo.getGeneroId());
         if (genero == null) {
             throw new AplicacionExcepcion("Género");
@@ -89,7 +103,7 @@ public class EmpeladoServicio {
         empleadoRepositorio.crear(empleado);
     }
 
-    public void actualizar(ActualizarEmpleadoModelo empleadoModelo) {
+    public void actualizar(EmpleadoActualizarModelo empleadoModelo) {
         Empleado empleado = this.empleadoRepositorio.obtenerPorId(empleadoModelo.getId());
 
         if (empleado == null) {

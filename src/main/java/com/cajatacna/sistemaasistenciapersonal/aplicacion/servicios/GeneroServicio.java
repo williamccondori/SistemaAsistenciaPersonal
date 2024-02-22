@@ -2,7 +2,7 @@ package com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios;
 
 import java.util.ArrayList;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.generos.GeneroRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Genero;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IGeneroRepositorio;
 

@@ -1,4 +1,4 @@
-package com.cajatacna.sistemaasistenciapersonal.controladores.emplados;
+package com.cajatacna.sistemaasistenciapersonal.controladores;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.EmpleadoRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.EmpeladoServicio;
 import com.cajatacna.sistemaasistenciapersonal.dominio.excepciones.AplicacionExcepcion;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IAreaRepositorio;

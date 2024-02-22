@@ -1,6 +1,6 @@
-package com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.generos;
+package com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos;
 
-public class GeneroRespuestaModelo {
+public class RolRespuestaModelo {
     private int id;
     private String nombre;
 

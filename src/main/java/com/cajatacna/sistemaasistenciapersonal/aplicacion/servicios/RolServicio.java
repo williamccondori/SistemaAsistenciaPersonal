@@ -2,7 +2,7 @@ package com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios;
 
 import java.util.ArrayList;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.roles.RolRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Rol;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IRolRepositorio;
 

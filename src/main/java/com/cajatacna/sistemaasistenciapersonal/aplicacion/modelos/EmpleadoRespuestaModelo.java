@@ -1,4 +1,4 @@
-package com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados;
+package com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos;
 
 public class EmpleadoRespuestaModelo {
     private int id;

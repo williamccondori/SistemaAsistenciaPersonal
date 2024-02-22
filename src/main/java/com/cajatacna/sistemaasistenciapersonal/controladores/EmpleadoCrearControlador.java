@@ -1,7 +1,6 @@
-package com.cajatacna.sistemaasistenciapersonal.controladores.emplados;
+package com.cajatacna.sistemaasistenciapersonal.controladores;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -11,16 +10,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.areas.AreaRespuestaModelo;
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.CrearEmpleadoModelo;
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.generos.GeneroRespuestaModelo;
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.roles.RolRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AreaRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.AreaServicio;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.EmpeladoServicio;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.GeneroServicio;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.RolServicio;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.utilidades.Utilidades;
 import com.cajatacna.sistemaasistenciapersonal.dominio.excepciones.AplicacionExcepcion;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IAreaRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IEmpleadoRepositorio;
@@ -31,8 +30,8 @@ import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositor
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.GeneroRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.RolRepositorio;
 
-@MultipartConfig
 @WebServlet(name = "EmpleadoCrearControlador", urlPatterns = { "/empleados/crear" })
+@MultipartConfig
 public class EmpleadoCrearControlador extends HttpServlet {
 
     private final IEmpleadoRepositorio empleadoRepositorio;
@@ -47,25 +46,62 @@ public class EmpleadoCrearControlador extends HttpServlet {
         this.rolRepositorio = new RolRepositorio();
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Áreas.
+    private void enviarMaestros(HttpServletRequest request) {
         AreaServicio areaServicio = new AreaServicio(this.areasRepositorio);
         ArrayList<AreaRespuestaModelo> areas = areaServicio.obtenerTodos();
 
-        // Géneros.
         GeneroServicio generoServicio = new GeneroServicio(this.generoRepositorio);
         ArrayList<GeneroRespuestaModelo> generos = generoServicio.obtenerTodos();
 
-        // Roles.
         RolServicio rolServicio = new RolServicio(this.rolRepositorio);
         ArrayList<RolRespuestaModelo> roles = rolServicio.obtenerTodos();
 
         request.setAttribute("areas", areas);
         request.setAttribute("generos", generos);
         request.setAttribute("roles", roles);
+    }
 
+    private void enviarEmpleado(HttpServletRequest request) {
+        EmpleadoModelo empleado = new EmpleadoModelo();
+        empleado.setNombre(request.getParameter("nombre"));
+        empleado.setApellido(request.getParameter("apellido"));
+        empleado.setContrasena(request.getParameter("contrasena"));
+        empleado.setDireccion(request.getParameter("direccion"));
+        empleado.setTelefono(request.getParameter("telefono"));
+        empleado.setEmail(request.getParameter("email"));
+        empleado.setFechaNacimiento(request.getParameter("fechaNacimiento"));
+        empleado.setGeneroId(Utilidades.obtenerInt(request.getParameter("generoId")));
+        empleado.setRolId(Utilidades.obtenerInt(request.getParameter("rolId")));
+        empleado.setAreaId(Utilidades.obtenerInt(request.getParameter("areaId")));
+        request.setAttribute("empleado", empleado);
+    }
+
+    private EmpleadoModelo recibirEmpleado(HttpServletRequest request) {
+        EmpleadoModelo empleado = new EmpleadoModelo();
+        empleado.setNombre(request.getParameter("nombre"));
+        empleado.setApellido(request.getParameter("apellido"));
+        empleado.setContrasena(request.getParameter("contrasena"));
+        empleado.setDireccion(request.getParameter("direccion"));
+        empleado.setTelefono(request.getParameter("telefono"));
+        empleado.setEmail(request.getParameter("email"));
+        empleado.setFechaNacimiento(request.getParameter("fechaNacimiento"));
+        empleado.setGeneroId(Utilidades.obtenerInt(request.getParameter("generoId")));
+        empleado.setRolId(Utilidades.obtenerInt(request.getParameter("rolId")));
+        empleado.setAreaId(Utilidades.obtenerInt(request.getParameter("areaId")));
+
+        try {
+            empleado.setFoto(Utilidades.obtenerBytesDePart(request.getPart("foto")));
+        } catch (ServletException | IOException e) {
+            throw new AplicacionExcepcion("Error al procesar el archivo");
+        }
+
+        return empleado;
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        this.enviarMaestros(request);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/empleados/EmpleadoCrear.jsp");
         dispatcher.forward(request, response);
     }
@@ -79,40 +115,21 @@ public class EmpleadoCrearControlador extends HttpServlet {
                     this.generoRepositorio,
                     this.rolRepositorio,
                     this.areasRepositorio);
-
-            CrearEmpleadoModelo empleado = new CrearEmpleadoModelo();
-            empleado.setNombre(request.getParameter("nombre"));
-            empleado.setApellido(request.getParameter("apellido"));
-            empleado.setContrasena(request.getParameter("contrasena"));
-            empleado.setDireccion(request.getParameter("direccion"));
-            empleado.setTelefono(request.getParameter("telefono"));
-            empleado.setEmail(request.getParameter("email"));
-            empleado.setFechaNacimiento(request.getParameter("fechaNacimiento"));
-            empleado.setGeneroId(this.obtenerInt(request.getParameter("generoId")));
-            empleado.setRolId(this.obtenerInt(request.getParameter("rolId")));
-            empleado.setAreaId(this.obtenerInt(request.getParameter("areaId")));
-            empleado.setFoto(this.obtenerFoto(request.getPart("file")));
+            EmpleadoModelo empleado = this.recibirEmpleado(request);
             empeladoServicio.crear(empleado);
-
             response.sendRedirect(
                     request.getContextPath() + "/empleados?mensajeCorrecto=Empleado creado correctamente");
         } catch (AplicacionExcepcion e) {
-            response.sendRedirect(request.getContextPath() + "/empleados/crear?mensajeError=" + e.getMessage());
-        }
-    }
 
-    private byte[] obtenerFoto(Part part) {
-        try {
-            InputStream inputStream = part.getInputStream();
-            byte[] buffer = new byte[inputStream.available()];
-            inputStream.read(buffer);
-            return buffer;
-        } catch (IOException e) {
-            return null;
-        }
-    }
+            // Enviar maestros y empleado.
+            this.enviarMaestros(request);
+            this.enviarEmpleado(request);
 
-    private int obtenerInt(String valor) {
-        return valor == null ? 0 : Integer.parseInt(valor);
+            request.setAttribute("error", e.getMessage());
+
+            // Redirigir a la vista.
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/empleados/EmpleadoCrear.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 }

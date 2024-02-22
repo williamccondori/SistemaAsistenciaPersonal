@@ -1,6 +1,6 @@
-package com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados;
+package com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos;
 
-public class ActualizarEmpleadoModelo {
+public class EmpleadoActualizarModelo {
     private int id;
     private String nombre;
     private String apellido;

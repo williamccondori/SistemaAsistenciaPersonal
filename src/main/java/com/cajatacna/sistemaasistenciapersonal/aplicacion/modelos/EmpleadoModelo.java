@@ -1,6 +1,7 @@
-package com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados;
+package com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos;
 
-public class CrearEmpleadoModelo {
+public class EmpleadoModelo {
+    private int id;
     private String nombre;
     private String apellido;
     private String email;
@@ -12,6 +13,14 @@ public class CrearEmpleadoModelo {
     private int areaId;
     private int rolId;
     private byte[] foto;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;

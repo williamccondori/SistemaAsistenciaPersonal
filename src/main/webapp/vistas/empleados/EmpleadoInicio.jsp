@@ -1,4 +1,4 @@
-<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.EmpleadoRespuestaModelo"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoRespuestaModelo"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
