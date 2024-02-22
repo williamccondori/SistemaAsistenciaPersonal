@@ -1,4 +1,4 @@
-package com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.areas.obtenerTodos;
+package com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios;
 
 import java.util.ArrayList;
 
@@ -6,15 +6,15 @@ import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.areas.AreaResp
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Area;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IAreaRepositorio;
 
-public class ObtenerTodosAreaQueryHandler {
-
+public class AreaServicio {
+    
     private final IAreaRepositorio areaRepositorio;
 
-    public ObtenerTodosAreaQueryHandler(IAreaRepositorio areaRepositorio) {
+    public AreaServicio(IAreaRepositorio areaRepositorio) {
         this.areaRepositorio = areaRepositorio;
     }
 
-    public ArrayList<AreaRespuestaModelo> handle() {
+    public ArrayList<AreaRespuestaModelo> obtenerTodos() {
         ArrayList<AreaRespuestaModelo> modelos = new ArrayList<>();
 
         ArrayList<Area> areas = this.areaRepositorio.obtenerTodos();

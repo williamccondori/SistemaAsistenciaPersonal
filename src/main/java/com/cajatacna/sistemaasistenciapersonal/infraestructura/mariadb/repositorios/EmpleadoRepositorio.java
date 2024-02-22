@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Area;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Empleado;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Rol;
-import com.cajatacna.sistemaasistenciapersonal.dominio.excepciones.MariaDBExcepcion;
+import com.cajatacna.sistemaasistenciapersonal.dominio.excepciones.AplicacionExcepcion;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IEmpleadoRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.conexion.Conexion;
 
@@ -22,7 +22,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
         try {
             conexion = Conexion.getConnection();
         } catch (SQLException excpcion) {
-            throw new MariaDBExcepcion(excpcion.getMessage());
+            throw new AplicacionExcepcion(excpcion.getMessage());
         }
     }
 
@@ -46,7 +46,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             callableStatement.execute();
 
         } catch (SQLException excpcion) {
-            throw new MariaDBExcepcion(excpcion.getMessage());
+            throw new AplicacionExcepcion(excpcion.getMessage());
         }
     }
 
@@ -68,7 +68,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             callableStatement.setInt(10, empleado.getRol().getId());
             callableStatement.setInt(11, empleado.getArea().getId());
         } catch (SQLException excpcion) {
-            throw new MariaDBExcepcion(excpcion.getMessage());
+            throw new AplicacionExcepcion(excpcion.getMessage());
         }
     }
 
@@ -81,7 +81,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             callableStatement.execute();
 
         } catch (SQLException excpcion) {
-            throw new MariaDBExcepcion(excpcion.getMessage());
+            throw new AplicacionExcepcion(excpcion.getMessage());
         }
     }
 
@@ -100,7 +100,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             }
 
         } catch (SQLException excpcion) {
-            throw new MariaDBExcepcion(excpcion.getMessage());
+            throw new AplicacionExcepcion(excpcion.getMessage());
         }
     }
 
@@ -120,7 +120,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             }
 
         } catch (SQLException excpcion) {
-            throw new MariaDBExcepcion(excpcion.getMessage());
+            throw new AplicacionExcepcion(excpcion.getMessage());
         }
     }
 
@@ -141,7 +141,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             return empleados;
 
         } catch (SQLException excpcion) {
-            throw new MariaDBExcepcion(excpcion.getMessage());
+            throw new AplicacionExcepcion(excpcion.getMessage());
         }
     }
 

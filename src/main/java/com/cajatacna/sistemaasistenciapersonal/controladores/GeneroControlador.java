@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.generos.obtenerTodos.ObtenerTodosGeneroQueryHandler;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.generos.GeneroRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.GeneroServicio;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IGeneroRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.GeneroRepositorio;
 
@@ -26,10 +26,8 @@ public class GeneroControlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ObtenerTodosGeneroQueryHandler obtenerTodosGeneroQueryHandler = new ObtenerTodosGeneroQueryHandler(
-                this.generoRepositorio);
-
-        ArrayList<GeneroRespuestaModelo> generos = obtenerTodosGeneroQueryHandler.handle();
+        GeneroServicio generoServicio = new GeneroServicio(this.generoRepositorio);
+        ArrayList<GeneroRespuestaModelo> generos = generoServicio.obtenerTodos();
 
         request.setAttribute("generos", generos);
 

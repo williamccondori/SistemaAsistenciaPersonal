@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.roles.obtenerTodos.ObtenerTodosRolQueryHandler;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.roles.RolRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.RolServicio;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IRolRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.RolRepositorio;
 
@@ -26,10 +26,8 @@ public class RolControlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ObtenerTodosRolQueryHandler obtenerTodosRolQueryHandler = new ObtenerTodosRolQueryHandler(
-                this.rolRepositorio);
-
-        ArrayList<RolRespuestaModelo> roles = obtenerTodosRolQueryHandler.handle();
+        RolServicio rolServicio = new RolServicio(this.rolRepositorio);
+        ArrayList<RolRespuestaModelo> roles = rolServicio.obtenerTodos();
 
         request.setAttribute("roles", roles);
 

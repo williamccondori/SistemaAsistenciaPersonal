@@ -161,6 +161,15 @@
                         <!-- Page Heading -->
                         <h1 class="h3 mb-4 text-gray-800">Empleados</h1>
 
+                        <div class="mb-4"> 
+                            <a href="<%=request.getContextPath()%>/empleados/crear" class="btn btn-primary btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <span class="text">Crear empleado</span>
+                            </a>
+                        </div>
+
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Todos los empleados</h6>

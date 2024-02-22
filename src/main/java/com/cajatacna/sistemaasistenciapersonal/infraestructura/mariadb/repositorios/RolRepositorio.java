@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Rol;
-import com.cajatacna.sistemaasistenciapersonal.dominio.excepciones.MariaDBExcepcion;
+import com.cajatacna.sistemaasistenciapersonal.dominio.excepciones.AplicacionExcepcion;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IRolRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.conexion.Conexion;
 
@@ -19,7 +19,7 @@ public class RolRepositorio implements IRolRepositorio {
         try {
             conexion = Conexion.getConnection();
         } catch (SQLException excpcion) {
-            throw new MariaDBExcepcion(excpcion.getMessage());
+            throw new AplicacionExcepcion(excpcion.getMessage());
         }
     }
 
@@ -43,7 +43,7 @@ public class RolRepositorio implements IRolRepositorio {
             }
 
         } catch (SQLException excpcion) {
-            throw new MariaDBExcepcion(excpcion.getMessage());
+            throw new AplicacionExcepcion(excpcion.getMessage());
         }
     }
 
@@ -68,7 +68,7 @@ public class RolRepositorio implements IRolRepositorio {
             return roles;
 
         } catch (SQLException excpcion) {
-            throw new MariaDBExcepcion(excpcion.getMessage());
+            throw new AplicacionExcepcion(excpcion.getMessage());
         }
     }
 

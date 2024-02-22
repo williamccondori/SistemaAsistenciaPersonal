@@ -1,4 +1,4 @@
-package com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.generos.obtenerTodos;
+package com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios;
 
 import java.util.ArrayList;
 
@@ -6,15 +6,15 @@ import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.generos.Genero
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Genero;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IGeneroRepositorio;
 
-public class ObtenerTodosGeneroQueryHandler {
+public class GeneroServicio {
 
     private final IGeneroRepositorio generoRepositorio;
 
-    public ObtenerTodosGeneroQueryHandler(IGeneroRepositorio generoRepositorio) {
+    public GeneroServicio(IGeneroRepositorio generoRepositorio) {
         this.generoRepositorio = generoRepositorio;
     }
 
-    public ArrayList<GeneroRespuestaModelo> handle() {
+    public ArrayList<GeneroRespuestaModelo> obtenerTodos() {
         ArrayList<GeneroRespuestaModelo> modelos = new ArrayList<>();
 
         ArrayList<Genero> generos = this.generoRepositorio.obtenerTodos();

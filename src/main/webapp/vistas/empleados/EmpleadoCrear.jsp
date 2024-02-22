@@ -1,5 +1,8 @@
-<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.generos.GeneroRespuestaModelo"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.areas.AreaRespuestaModelo"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.roles.RolRespuestaModelo"%>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -9,18 +12,18 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Empleados</title>
+        <title>Crear emlpleado</title>
 
         <!-- Custom fonts for this template-->
-        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link href="<%=request.getContextPath()%>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
               rel="stylesheet">
 
         <!-- Custom styles for this template-->
-        <link href="css/sb-admin-2.css" rel="stylesheet">
+        <link href="<%=request.getContextPath()%>/css/sb-admin-2.css" rel="stylesheet">
 
         <!-- Custom styles for this page -->
-        <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <link href="<%=request.getContextPath()%>/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     </head>
     <body id="page-top">
@@ -160,7 +163,96 @@
                         <!-- Page Heading -->
                         <h1 class="h3 mb-4 text-gray-800">Crear empleado</h1>
 
-                        
+                        <%
+                            String mensajeError = request.getParameter("mensajeError");
+                            if (mensajeError != null && !mensajeError.isEmpty()) {
+                        %>
+                        <div class="alert alert-danger">
+                            Error Message: <%= mensajeError%>
+                        </div>
+                        <%
+                            }
+                        %>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Registro</h6>
+                            </div>
+                            <div class="card-body"> 
+                                <form action="<%=request.getContextPath()%>/empleados/crear" method="post" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col-md-6"> 
+                                            <div class="form-group">
+                                                <label for="nombre">Nombre:</label>
+                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="apellido">Apellido:</label>
+                                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Correo:</label>
+                                                <input type="email" class="form-control" id="email" name="email" required>
+                                            </div> 
+                                            <div class="form-group">
+                                                <label for="contrasena">Contraseña:</label>
+                                                <input type="password" class="form-control" id="contrasena" name="contrasena" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="foto">Foto:</label>
+                                                <input type="file" class="form-control" id="foto" name="foto"  >
+                                                <small class="form-text text-muted">Subir foto del empleado.</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="fechaNacimiento">Fecha de nacimiento:</label>
+                                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="generoId">Género:</label>
+                                                <select class="form-control" id="generoId" name="generoId" required>
+                                                    <% ArrayList<GeneroRespuestaModelo> generos = (ArrayList<GeneroRespuestaModelo>) request.getAttribute("generos"); %>
+                                                    <% for (GeneroRespuestaModelo genero : generos) {%>
+                                                    <option value="<%=genero.getId()%>"><%=genero.getNombre()%></option>
+                                                    <% } %> 
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="direccion">Dirección:</label>
+                                                <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="telefono">Teléfono:</label>
+                                                <input type="text" class="form-control" id="telefono" name="telefono" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="rolId">Rol:</label>
+                                                <select class="form-control" id="rolId" name="rolId" required>
+                                                    <% ArrayList<RolRespuestaModelo> roles = (ArrayList<RolRespuestaModelo>) request.getAttribute("roles"); %>
+                                                    <% for (RolRespuestaModelo rol : roles) {%>
+                                                    <option value="<%=rol.getId()%>"><%=rol.getNombre()%></option>
+                                                    <% } %> 
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="areaId">Área:</label>
+                                                <select class="form-control" id="rolId" name="rolId" required>
+                                                    <% ArrayList<AreaRespuestaModelo> areas = (ArrayList<AreaRespuestaModelo>) request.getAttribute("areas"); %>
+                                                    <% for (AreaRespuestaModelo area : areas) {%>
+                                                    <option value="<%=area.getId()%>"><%=area.getNombre()%></option>
+                                                    <% }%> 
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                            <a href="<%=request.getContextPath()%>/empleados" class="btn btn-secondary">Regresar</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
 
                     </div>
                     <!-- /.container-fluid -->
@@ -210,21 +302,21 @@
         </div>
 
         <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="<%=request.getContextPath()%>/vendor/jquery/jquery.min.js"></script>
+        <script src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="<%=request.getContextPath()%>/vendor/jquery-easing/jquery.easing.min.js"></script>
 
         <!-- Custom scripts for all pages-->
-        <script src="js/sb-admin-2.min.js"></script>
+        <script src="<%=request.getContextPath()%>/js/sb-admin-2.min.js"></script>
 
         <!-- Page level plugins -->
-        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="<%=request.getContextPath()%>/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="<%=request.getContextPath()%>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
         <!-- Page level custom scripts -->
-        <script src="js/demo/datatables-demo.js"></script>
+        <script src="<%=request.getContextPath()%>/js/demo/datatables-demo.js"></script>
 
     </body>
 </html>
