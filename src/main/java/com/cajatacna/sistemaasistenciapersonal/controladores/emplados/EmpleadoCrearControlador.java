@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.empleados.crearEmpleado.CrearEmpleadoCommand;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.areas.AreaRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.CrearEmpleadoModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.generos.GeneroRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.roles.RolRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.AreaServicio;
@@ -80,42 +80,39 @@ public class EmpleadoCrearControlador extends HttpServlet {
                     this.rolRepositorio,
                     this.areasRepositorio);
 
-            CrearEmpleadoCommand command = new CrearEmpleadoCommand();
-            command.setNombre(request.getParameter("nombre"));
-            command.setApellido(request.getParameter("apellido"));
-            command.setContrasena(request.getParameter("contrasena"));
-            command.setDireccion(request.getParameter("direccion"));
-            command.setTelefono(request.getParameter("telefono"));
-            command.setEmail(request.getParameter("email"));
-
-            command.setGeneroId(
-                    Integer.parseInt(
-                            request.getParameter("generoId") != null
-                                    ? request.getParameter("generoId")
-                                    : "0"));
-            command.setRolId(
-                    Integer.parseInt(request.getParameter("rolId") != null
-                            ? request.getParameter("rolId")
-                            : "0"));
-            command.setAreaId(
-                    Integer.parseInt(request.getParameter("areaId") != null
-                            ? request.getParameter("areaId")
-                            : "0"));
-
-            Part filePart = request.getPart("file");
-            if (filePart != null) {
-                InputStream fileContent = filePart.getInputStream();
-                command.setFoto(fileContent.readAllBytes());
-            }
-
-            empeladoServicio.crear(command);
+            CrearEmpleadoModelo empleado = new CrearEmpleadoModelo();
+            empleado.setNombre(request.getParameter("nombre"));
+            empleado.setApellido(request.getParameter("apellido"));
+            empleado.setContrasena(request.getParameter("contrasena"));
+            empleado.setDireccion(request.getParameter("direccion"));
+            empleado.setTelefono(request.getParameter("telefono"));
+            empleado.setEmail(request.getParameter("email"));
+            empleado.setFechaNacimiento(request.getParameter("fechaNacimiento"));
+            empleado.setGeneroId(this.obtenerInt(request.getParameter("generoId")));
+            empleado.setRolId(this.obtenerInt(request.getParameter("rolId")));
+            empleado.setAreaId(this.obtenerInt(request.getParameter("areaId")));
+            empleado.setFoto(this.obtenerFoto(request.getPart("file")));
+            empeladoServicio.crear(empleado);
 
             response.sendRedirect(
-                    request.getContextPath()
-                            + "/empleados?mensajeCorrecto=Empleado creado correctamente");
+                    request.getContextPath() + "/empleados?mensajeCorrecto=Empleado creado correctamente");
         } catch (AplicacionExcepcion e) {
-            response.sendRedirect(
-                    request.getContextPath() + "/empleados/crear?mensajeError=" + e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/empleados/crear?mensajeError=" + e.getMessage());
         }
+    }
+
+    private byte[] obtenerFoto(Part part) {
+        try {
+            InputStream inputStream = part.getInputStream();
+            byte[] buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
+            return buffer;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private int obtenerInt(String valor) {
+        return valor == null ? 0 : Integer.parseInt(valor);
     }
 }

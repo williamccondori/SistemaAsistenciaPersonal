@@ -2,7 +2,6 @@ package com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.reposito
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             callableStatement.setString(2, empleado.getApellido());
             callableStatement.setString(3, empleado.getContrasena());
             callableStatement.setBytes(4, empleado.getFoto());
-            callableStatement.setDate(5, (Date) empleado.getFechaNacimiento());
+            callableStatement.setString(5, empleado.getFechaNacimiento());
             callableStatement.setInt(6, empleado.getGenero().getId());
             callableStatement.setString(7, empleado.getDireccion());
             callableStatement.setString(8, empleado.getTelefono());
@@ -60,7 +59,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             callableStatement.setString(2, empleado.getApellido());
             callableStatement.setString(3, empleado.getContrasena());
             callableStatement.setBytes(4, empleado.getFoto());
-            callableStatement.setDate(5, (Date) empleado.getFechaNacimiento());
+            callableStatement.setString(5, empleado.getFechaNacimiento());
             callableStatement.setInt(6, empleado.getGenero().getId());
             callableStatement.setString(7, empleado.getDireccion());
             callableStatement.setString(8, empleado.getTelefono());
@@ -152,7 +151,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
         empleado.setApellido(resultSet.getString("apellido"));
         empleado.setContrasena(resultSet.getString("contrasena"));
         empleado.setFoto(resultSet.getBytes("foto"));
-        empleado.setFechaNacimiento(resultSet.getDate("fecha_nacimiento"));
+        empleado.setFechaNacimiento(resultSet.getString("fecha_nacimiento"));
         empleado.setDireccion(resultSet.getString("direccion"));
         empleado.setTelefono(resultSet.getString("telefono"));
         empleado.setEmail(resultSet.getString("email"));

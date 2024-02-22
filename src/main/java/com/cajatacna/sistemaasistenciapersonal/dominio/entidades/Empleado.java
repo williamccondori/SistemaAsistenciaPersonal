@@ -1,14 +1,12 @@
 package com.cajatacna.sistemaasistenciapersonal.dominio.entidades;
 
-import java.util.Date;
-
 public class Empleado {
     private int id;
     private String nombre;
     private String apellido;
     private String contrasena;
     private byte[] foto;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     private Genero genero;
     private String direccion;
     private String telefono;
@@ -56,11 +54,11 @@ public class Empleado {
         this.foto = foto;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

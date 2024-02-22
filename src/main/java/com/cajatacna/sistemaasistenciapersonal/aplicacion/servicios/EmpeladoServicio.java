@@ -3,8 +3,8 @@ package com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios;
 import java.util.ArrayList;
 import java.util.Base64;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.empleados.actualizarEmpleado.ActualizarEmpleadoCommand;
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.casosDeUso.empleados.crearEmpleado.CrearEmpleadoCommand;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.ActualizarEmpleadoModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.CrearEmpleadoModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.empleados.EmpleadoRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Area;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Empleado;
@@ -57,31 +57,31 @@ public class EmpeladoServicio {
         return modelos;
     }
 
-    public void crear(CrearEmpleadoCommand command) {
-        Genero genero = this.generoRepositorio.obtenerPorId(command.getGeneroId());
+    public void crear(CrearEmpleadoModelo empleadoModelo) {
+        Genero genero = this.generoRepositorio.obtenerPorId(empleadoModelo.getGeneroId());
         if (genero == null) {
             throw new AplicacionExcepcion("Género");
         }
 
-        Rol rol = this.rolRepositorio.obtenerPorId(command.getRolId());
+        Rol rol = this.rolRepositorio.obtenerPorId(empleadoModelo.getRolId());
         if (rol == null) {
             throw new AplicacionExcepcion("Rol");
         }
 
-        Area area = this.areaRepositorio.obtenerPorId(command.getAreaId());
+        Area area = this.areaRepositorio.obtenerPorId(empleadoModelo.getAreaId());
         if (area == null) {
             throw new AplicacionExcepcion("Área");
         }
 
         Empleado empleado = new Empleado();
-        empleado.setNombre(command.getNombre());
-        empleado.setApellido(command.getApellido());
-        empleado.setContrasena(command.getContrasena());
-        empleado.setFoto(command.getFoto());
-        empleado.setFechaNacimiento(command.getFechaNacimiento());
-        empleado.setDireccion(command.getDireccion());
-        empleado.setTelefono(command.getTelefono());
-        empleado.setEmail(command.getEmail());
+        empleado.setNombre(empleadoModelo.getNombre());
+        empleado.setApellido(empleadoModelo.getApellido());
+        empleado.setContrasena(empleadoModelo.getContrasena());
+        empleado.setFoto(empleadoModelo.getFoto());
+        empleado.setFechaNacimiento(empleadoModelo.getFechaNacimiento());
+        empleado.setDireccion(empleadoModelo.getDireccion());
+        empleado.setTelefono(empleadoModelo.getTelefono());
+        empleado.setEmail(empleadoModelo.getEmail());
         empleado.setGenero(genero);
         empleado.setRol(rol);
         empleado.setArea(area);
@@ -89,36 +89,36 @@ public class EmpeladoServicio {
         empleadoRepositorio.crear(empleado);
     }
 
-    public void actualizar(ActualizarEmpleadoCommand command) {
-        Empleado empleado = this.empleadoRepositorio.obtenerPorId(command.getId());
+    public void actualizar(ActualizarEmpleadoModelo empleadoModelo) {
+        Empleado empleado = this.empleadoRepositorio.obtenerPorId(empleadoModelo.getId());
 
         if (empleado == null) {
             throw new AplicacionExcepcion("Empleado");
         }
 
-        Genero genero = this.generoRepositorio.obtenerPorId(command.getGeneroId());
+        Genero genero = this.generoRepositorio.obtenerPorId(empleadoModelo.getGeneroId());
         if (genero == null) {
             throw new AplicacionExcepcion("Género");
         }
 
-        Rol rol = this.rolRepositorio.obtenerPorId(command.getRolId());
+        Rol rol = this.rolRepositorio.obtenerPorId(empleadoModelo.getRolId());
         if (rol == null) {
             throw new AplicacionExcepcion("Rol");
         }
 
-        Area area = this.areaRepositorio.obtenerPorId(command.getAreaId());
+        Area area = this.areaRepositorio.obtenerPorId(empleadoModelo.getAreaId());
         if (area == null) {
             throw new AplicacionExcepcion("Área");
         }
 
-        empleado.setNombre(command.getNombre());
-        empleado.setApellido(command.getApellido());
-        empleado.setContrasena(command.getContrasena());
-        empleado.setFoto(command.getFoto());
-        empleado.setFechaNacimiento(command.getFechaNacimiento());
-        empleado.setDireccion(command.getDireccion());
-        empleado.setTelefono(command.getTelefono());
-        empleado.setEmail(command.getEmail());
+        empleado.setNombre(empleadoModelo.getNombre());
+        empleado.setApellido(empleadoModelo.getApellido());
+        empleado.setContrasena(empleadoModelo.getContrasena());
+        empleado.setFoto(empleadoModelo.getFoto());
+        empleado.setFechaNacimiento(empleadoModelo.getFechaNacimiento());
+        empleado.setDireccion(empleadoModelo.getDireccion());
+        empleado.setTelefono(empleadoModelo.getTelefono());
+        empleado.setEmail(empleadoModelo.getEmail());
         empleado.setGenero(genero);
         empleado.setRol(rol);
         empleado.setArea(area);
