@@ -1,4 +1,4 @@
-<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoRespuestaModelo"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -190,15 +190,15 @@
                                         </thead>
                                         <tbody>
                                             <%
-                                                ArrayList<EmpleadoRespuestaModelo> empleados = (ArrayList<EmpleadoRespuestaModelo>) request.getAttribute("empleados");
-                                                for (EmpleadoRespuestaModelo empleado : empleados) {
+                                                ArrayList<EmpleadoModelo> empleados = (ArrayList<EmpleadoModelo>) request.getAttribute("empleados");
+                                                for (EmpleadoModelo empleado : empleados) {
                                             %>
                                             <tr>
                                                 <td><%= empleado.getId()%></td>
                                                 <td>
-                                                <% if (empleado.getFoto() != null) { %>
+                                                    <% if (empleado.getFoto() != null) { %>
                                                     <img src="data:image/jpeg;base64,<%= empleado.getFoto()%>" width="50" height="50">
-                                                <% } %>
+                                                    <% } %>
                                                 </td>
                                                 <td><%= empleado.getNombre()%></td>
                                                 <td><%= empleado.getApellido()%></td>

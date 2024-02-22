@@ -16,6 +16,7 @@ import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.AreaServicio;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.EmpeladoServicio;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.GeneroServicio;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.RolServicio;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.utilidades.Utilidades;
@@ -58,27 +59,24 @@ public class EmpleadoEliminarControlador extends HttpServlet {
         request.setAttribute("roles", roles);
     }
 
-    private void enviarEmpleado(HttpServletRequest request) {
-        EmpleadoModelo empleado = new EmpleadoModelo();
-        empleado.setId(Utilidades.obtenerInt(request.getParameter("id")));
-        empleado.setNombre(request.getParameter("nombre"));
-        empleado.setApellido(request.getParameter("apellido"));
-        empleado.setContrasena(request.getParameter("contrasena"));
-        empleado.setDireccion(request.getParameter("direccion"));
-        empleado.setTelefono(request.getParameter("telefono"));
-        empleado.setEmail(request.getParameter("email"));
-        empleado.setFechaNacimiento(request.getParameter("fechaNacimiento"));
-        empleado.setGeneroId(Utilidades.obtenerInt(request.getParameter("generoId")));
-        empleado.setRolId(Utilidades.obtenerInt(request.getParameter("rolId")));
-        empleado.setAreaId(Utilidades.obtenerInt(request.getParameter("areaId")));
+    private void enviarEmpleado(HttpServletRequest request, EmpleadoModelo empleado) {
         request.setAttribute("empleado", empleado);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int empleadoId = Utilidades.obtenerInt(request.getParameter("id"));
+
+        EmpeladoServicio empeladoServicio = new EmpeladoServicio(
+                this.empleadoRepositorio,
+                this.generoRepositorio,
+                this.rolRepositorio,
+                this.areasRepositorio);
+        EmpleadoModelo empleado = empeladoServicio.obtenerPorId(empleadoId);
         this.enviarMaestros(request);
-        this.enviarEmpleado(request);
+        this.enviarEmpleado(request, empleado);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/empleados/EmpleadoActualizar.jsp");
         dispatcher.forward(request, response);
     }

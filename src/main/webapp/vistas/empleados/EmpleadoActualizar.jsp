@@ -1,8 +1,10 @@
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo"%>
 <%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AreaRespuestaModelo"%>
 <%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolRespuestaModelo"%>
 <%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroRespuestaModelo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -174,6 +176,18 @@
                             }
                         %>
 
+                        <%
+                            EmpleadoModelo empleado = (EmpleadoModelo) request.getAttribute("empleado");
+                            if (empleado == null) {
+                        %>
+                        <div class="alert alert-danger">
+                            No se ha encontrado información del usuario.
+                        </div>
+                        <%
+                        } else {
+                        %>
+
+
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Registro</h6>
@@ -184,15 +198,15 @@
                                         <div class="col-md-6"> 
                                             <div class="form-group">
                                                 <label for="nombre">Nombre:</label>
-                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                                <input type="text" class="form-control" id="nombre" name="nombre" required value="<% empleado.getNombre(); %>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="apellido">Apellido:</label>
-                                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                                <input type="text" class="form-control" id="apellido" name="apellido" required value="<% empleado.getApellido(); %>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="email">Correo:</label>
-                                                <input type="email" class="form-control" id="email" name="email" required>
+                                                <input type="email" class="form-control" id="email" name="email" required value="<% empleado.getEmail(); %>">
                                             </div> 
                                             <div class="form-group">
                                                 <label for="contrasena">Contraseña:</label>
@@ -207,7 +221,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="fechaNacimiento">Fecha de nacimiento:</label>
-                                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
+                                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required value="<% empleado.getFechaNacimiento(); %>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="generoId">Género:</label>
@@ -254,6 +268,9 @@
                             </div>
                         </div>
 
+                        <%
+                            }
+                        %>
                     </div>
                     <!-- /.container-fluid -->
 

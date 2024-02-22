@@ -5,7 +5,6 @@ import java.util.Base64;
 
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoActualizarModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo;
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoRespuestaModelo;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Area;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Empleado;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Genero;
@@ -47,18 +46,41 @@ public class EmpeladoServicio {
         return modelo;
     }
 
-    public ArrayList<EmpleadoRespuestaModelo> obtenerTodos() {
-        ArrayList<EmpleadoRespuestaModelo> modelos = new ArrayList<>();
+    public EmpleadoModelo obtenerPorId(int empleadoId) {
+        Empleado empleado = this.empleadoRepositorio.obtenerPorId(empleadoId);
+
+        if (empleado == null) {
+            return null;
+        }
+
+        EmpleadoModelo modelo = new EmpleadoModelo();
+        modelo.setId(empleado.getId());
+
+        byte[] foto = empleado.getFoto();
+        if (foto != null) {
+            modelo.setFotoBase64(Base64.getEncoder().encodeToString(foto));
+        }
+
+        modelo.setNombre(empleado.getNombre());
+        modelo.setApellido(empleado.getApellido());
+        modelo.setRol(empleado.getRol().getNombre());
+        modelo.setArea(empleado.getArea().getNombre());
+
+        return modelo;
+    }
+
+    public ArrayList<EmpleadoModelo> obtenerTodos() {
+        ArrayList<EmpleadoModelo> modelos = new ArrayList<>();
 
         ArrayList<Empleado> empleados = this.empleadoRepositorio.obtenerTodos("");
 
         empleados.forEach(empleado -> {
-            EmpleadoRespuestaModelo modelo = new EmpleadoRespuestaModelo();
+            EmpleadoModelo modelo = new EmpleadoModelo();
             modelo.setId(empleado.getId());
 
             byte[] foto = empleado.getFoto();
             if (foto != null) {
-                modelo.setFoto(Base64.getEncoder().encodeToString(foto));
+                modelo.setFotoBase64(Base64.getEncoder().encodeToString(foto));
             }
 
             modelo.setNombre(empleado.getNombre());

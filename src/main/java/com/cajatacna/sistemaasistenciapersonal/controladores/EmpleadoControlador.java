@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.EmpeladoServicio;
 import com.cajatacna.sistemaasistenciapersonal.dominio.excepciones.AplicacionExcepcion;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IAreaRepositorio;
@@ -46,7 +46,7 @@ public class EmpleadoControlador extends HttpServlet {
                     this.generoRepositorio,
                     this.rolRepositorio,
                     this.areasRepositorio);
-            ArrayList<EmpleadoRespuestaModelo> empleados = empeladoServicio.obtenerTodos();
+            ArrayList<EmpleadoModelo> empleados = empeladoServicio.obtenerTodos();
 
             request.setAttribute("empleados", empleados);
 

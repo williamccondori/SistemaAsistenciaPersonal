@@ -1,8 +1,10 @@
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo"%>
 <%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AreaRespuestaModelo"%>
 <%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolRespuestaModelo"%>
 <%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroRespuestaModelo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
+
 <!DOCTYPE html>
 <html lang="es">
     <head>

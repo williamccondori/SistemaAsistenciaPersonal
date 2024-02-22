@@ -12,7 +12,43 @@ public class EmpleadoModelo {
     private int generoId;
     private int areaId;
     private int rolId;
+    private String rol;
+    private String area;
+    private String genero;
     private byte[] foto;
+    private String fotoBase64;
+
+    public String getFotoBase64() {
+        return fotoBase64;
+    }
+
+    public void setFotoBase64(String fotoBase64) {
+        this.fotoBase64 = fotoBase64;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
 
     public int getId() {
         return id;
