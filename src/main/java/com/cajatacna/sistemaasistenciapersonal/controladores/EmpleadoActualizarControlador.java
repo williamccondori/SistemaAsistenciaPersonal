@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AreaRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AreaModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo;
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroRespuestaModelo;
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.AreaServicio;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.EmpeladoServicio;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.GeneroServicio;
@@ -26,7 +26,7 @@ import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositor
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.GeneroRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.RolRepositorio;
 
-@WebServlet(name = "EmpleadoActualizarControlador", urlPatterns = {"/empleados/actualizar"})
+@WebServlet(name = "EmpleadoActualizarControlador", urlPatterns = { "/empleados/actualizar" })
 @MultipartConfig
 public class EmpleadoActualizarControlador extends HttpServlet {
 
@@ -47,12 +47,11 @@ public class EmpleadoActualizarControlador extends HttpServlet {
     }
 
     private void enviarMaestros(HttpServletRequest request) {
-        ArrayList<AreaRespuestaModelo> areas = this.areaServicio.obtenerTodos();
-        ArrayList<GeneroRespuestaModelo> generos = this.generoServicio.obtenerTodos();
-        ArrayList<RolRespuestaModelo> roles = this.rolServicio.obtenerTodos();
-
+        ArrayList<AreaModelo> areas = this.areaServicio.obtenerTodos();
         request.setAttribute("areas", areas);
+        ArrayList<GeneroModelo> generos = this.generoServicio.obtenerTodos();
         request.setAttribute("generos", generos);
+        ArrayList<RolModelo> roles = this.rolServicio.obtenerTodos();
         request.setAttribute("roles", roles);
     }
 
@@ -89,12 +88,10 @@ public class EmpleadoActualizarControlador extends HttpServlet {
 
             this.empleadoServicio.crear(empleado);
 
-            response.sendRedirect(request.getContextPath() + "/empleados?mensajeCorrecto=Empleado creado correctamente");
+            response.sendRedirect(request.getContextPath() + "/empleados?estado=OK");
         } catch (AplicacionExcepcion e) {
-            this.enviarMaestros(request);
             request.setAttribute("error", e.getMessage());
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/empleados/EmpleadoActualizar.jsp");
-            dispatcher.forward(request, response);
+            this.doGet(request, response);
         }
     }
 }

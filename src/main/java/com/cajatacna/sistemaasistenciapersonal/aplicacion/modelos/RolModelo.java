@@ -1,6 +1,6 @@
 package com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos;
 
-public class AreaRespuestaModelo {
+public class RolModelo {
     private int id;
     private String nombre;
 

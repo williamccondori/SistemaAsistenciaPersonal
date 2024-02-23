@@ -2,7 +2,7 @@ package com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios;
 
 import java.util.ArrayList;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroModelo;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Genero;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IGeneroRepositorio;
 
@@ -14,13 +14,13 @@ public class GeneroServicio {
         this.generoRepositorio = generoRepositorio;
     }
 
-    public ArrayList<GeneroRespuestaModelo> obtenerTodos() {
-        ArrayList<GeneroRespuestaModelo> modelos = new ArrayList<>();
+    public ArrayList<GeneroModelo> obtenerTodos() {
+        ArrayList<GeneroModelo> modelos = new ArrayList<>();
 
         ArrayList<Genero> generos = this.generoRepositorio.obtenerTodos();
 
         generos.forEach(genero -> {
-            GeneroRespuestaModelo modelo = new GeneroRespuestaModelo();
+            GeneroModelo modelo = new GeneroModelo();
             modelo.setId(genero.getId());
             modelo.setNombre(genero.getNombre());
             modelos.add(modelo);

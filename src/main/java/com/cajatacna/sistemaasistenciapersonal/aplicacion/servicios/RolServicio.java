@@ -2,7 +2,7 @@ package com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios;
 
 import java.util.ArrayList;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolModelo;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Rol;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IRolRepositorio;
 
@@ -14,13 +14,13 @@ public class RolServicio {
         this.rolRepositorio = rolRepositorio;
     }
 
-    public ArrayList<RolRespuestaModelo> obtenerTodos() {
-        ArrayList<RolRespuestaModelo> modelos = new ArrayList<>();
+    public ArrayList<RolModelo> obtenerTodos() {
+        ArrayList<RolModelo> modelos = new ArrayList<>();
 
         ArrayList<Rol> roles = this.rolRepositorio.obtenerTodos();
 
         roles.forEach(rol -> {
-            RolRespuestaModelo modelo = new RolRespuestaModelo();
+            RolModelo modelo = new RolModelo();
             modelo.setId(rol.getId());
             modelo.setNombre(rol.getNombre());
             modelos.add(modelo);

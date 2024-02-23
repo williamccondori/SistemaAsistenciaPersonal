@@ -3,7 +3,6 @@ package com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios;
 import java.util.ArrayList;
 import java.util.Base64;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoActualizarModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Area;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Empleado;
@@ -96,17 +95,17 @@ public class EmpeladoServicio {
     public void crear(EmpleadoModelo empleadoModelo) {
         Genero genero = this.generoRepositorio.obtenerPorId(empleadoModelo.getGeneroId());
         if (genero == null) {
-            throw new AplicacionExcepcion("Género");
+            throw new AplicacionExcepcion("No se encontró el género");
         }
 
         Rol rol = this.rolRepositorio.obtenerPorId(empleadoModelo.getRolId());
         if (rol == null) {
-            throw new AplicacionExcepcion("Rol");
+            throw new AplicacionExcepcion("No se encontró el rol");
         }
 
         Area area = this.areaRepositorio.obtenerPorId(empleadoModelo.getAreaId());
         if (area == null) {
-            throw new AplicacionExcepcion("Área");
+            throw new AplicacionExcepcion("No se encontró el área");
         }
 
         Empleado empleado = new Empleado();
@@ -122,29 +121,29 @@ public class EmpeladoServicio {
         empleado.setRol(rol);
         empleado.setArea(area);
 
-        empleadoRepositorio.crear(empleado);
+        this.empleadoRepositorio.crear(empleado);
     }
 
-    public void actualizar(EmpleadoActualizarModelo empleadoModelo) {
+    public void actualizar(EmpleadoModelo empleadoModelo) {
         Empleado empleado = this.empleadoRepositorio.obtenerPorId(empleadoModelo.getId());
 
         if (empleado == null) {
-            throw new AplicacionExcepcion("Empleado");
+            throw new AplicacionExcepcion("No se encontró el empleado");
         }
 
         Genero genero = this.generoRepositorio.obtenerPorId(empleadoModelo.getGeneroId());
         if (genero == null) {
-            throw new AplicacionExcepcion("Género");
+            throw new AplicacionExcepcion("No se encontró el género");
         }
 
         Rol rol = this.rolRepositorio.obtenerPorId(empleadoModelo.getRolId());
         if (rol == null) {
-            throw new AplicacionExcepcion("Rol");
+            throw new AplicacionExcepcion("No se encontró el rol");
         }
 
         Area area = this.areaRepositorio.obtenerPorId(empleadoModelo.getAreaId());
         if (area == null) {
-            throw new AplicacionExcepcion("Área");
+            throw new AplicacionExcepcion("No se encontró el área");
         }
 
         empleado.setNombre(empleadoModelo.getNombre());
@@ -159,6 +158,16 @@ public class EmpeladoServicio {
         empleado.setRol(rol);
         empleado.setArea(area);
 
-        empleadoRepositorio.actualizar(empleado);
+        this.empleadoRepositorio.actualizar(empleado);
+    }
+
+    public void eliminar(int empleadoId) {
+        Empleado empleado = this.empleadoRepositorio.obtenerPorId(empleadoId);
+
+        if (empleado == null) {
+            throw new AplicacionExcepcion("No se encontró el empleado");
+        }
+
+        this.empleadoRepositorio.eliminar(empleado);
     }
 }

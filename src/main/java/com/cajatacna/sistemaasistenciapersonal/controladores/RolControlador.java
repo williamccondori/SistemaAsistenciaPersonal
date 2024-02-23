@@ -10,27 +10,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.RolServicio;
-import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IRolRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.RolRepositorio;
 
 @WebServlet(name = "RolControlador", urlPatterns = { "/roles" })
 public class RolControlador extends HttpServlet {
-    private final IRolRepositorio rolRepositorio;
+    private final RolServicio rolServicio;
 
     public RolControlador() {
-        this.rolRepositorio = new RolRepositorio();
+        this.rolServicio = new RolServicio(new RolRepositorio());
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RolServicio rolServicio = new RolServicio(this.rolRepositorio);
-        ArrayList<RolRespuestaModelo> roles = rolServicio.obtenerTodos();
-
+        ArrayList<RolModelo> roles = rolServicio.obtenerTodos();
         request.setAttribute("roles", roles);
-
         RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/roles/RolInicio.jsp");
         dispatcher.forward(request, response);
     }

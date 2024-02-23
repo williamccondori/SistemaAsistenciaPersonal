@@ -12,11 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.EmpeladoServicio;
-import com.cajatacna.sistemaasistenciapersonal.dominio.excepciones.AplicacionExcepcion;
-import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IAreaRepositorio;
-import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IEmpleadoRepositorio;
-import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IGeneroRepositorio;
-import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IRolRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.AreaRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.EmpleadoRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.GeneroRepositorio;
@@ -25,36 +20,22 @@ import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositor
 @WebServlet(name = "EmpleadoControlador", urlPatterns = { "/empleados" })
 public class EmpleadoControlador extends HttpServlet {
 
-    private final IEmpleadoRepositorio empleadoRepositorio;
-    private final IAreaRepositorio areasRepositorio;
-    private final IGeneroRepositorio generoRepositorio;
-    private final IRolRepositorio rolRepositorio;
+    private final EmpeladoServicio empleadoServicio;
 
     public EmpleadoControlador() {
-        this.empleadoRepositorio = new EmpleadoRepositorio();
-        this.areasRepositorio = new AreaRepositorio();
-        this.generoRepositorio = new GeneroRepositorio();
-        this.rolRepositorio = new RolRepositorio();
+        this.empleadoServicio = new EmpeladoServicio(
+                new EmpleadoRepositorio(),
+                new GeneroRepositorio(),
+                new RolRepositorio(),
+                new AreaRepositorio());
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            EmpeladoServicio empeladoServicio = new EmpeladoServicio(
-                    this.empleadoRepositorio,
-                    this.generoRepositorio,
-                    this.rolRepositorio,
-                    this.areasRepositorio);
-            ArrayList<EmpleadoModelo> empleados = empeladoServicio.obtenerTodos();
-
-            request.setAttribute("empleados", empleados);
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/empleados/EmpleadoInicio.jsp");
-            dispatcher.forward(request, response);
-        } catch (AplicacionExcepcion e) {
-            response.sendRedirect(
-                    request.getContextPath() + "/empleados?mensajeError=" + e.getMessage());
-        }
+        ArrayList<EmpleadoModelo> empleados = this.empleadoServicio.obtenerTodos();
+        request.setAttribute("empleados", empleados);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/empleados/EmpleadoInicio.jsp");
+        dispatcher.forward(request, response);
     }
 }

@@ -10,27 +10,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroRespuestaModelo;
+import com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroModelo;
 import com.cajatacna.sistemaasistenciapersonal.aplicacion.servicios.GeneroServicio;
-import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IGeneroRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.GeneroRepositorio;
 
 @WebServlet(name = "GeneroControlador", urlPatterns = { "/generos" })
 public class GeneroControlador extends HttpServlet {
-    private final IGeneroRepositorio generoRepositorio;
+    private final GeneroServicio generoServicio;
 
     public GeneroControlador() {
-        this.generoRepositorio = new GeneroRepositorio();
+        this.generoServicio = new GeneroServicio(new GeneroRepositorio());
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        GeneroServicio generoServicio = new GeneroServicio(this.generoRepositorio);
-        ArrayList<GeneroRespuestaModelo> generos = generoServicio.obtenerTodos();
-
+        ArrayList<GeneroModelo> generos = generoServicio.obtenerTodos();
         request.setAttribute("generos", generos);
-
         RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/generos/GeneroInicio.jsp");
         dispatcher.forward(request, response);
     }
