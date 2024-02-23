@@ -16,8 +16,9 @@ import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositor
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.EmpleadoRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.GeneroRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.RolRepositorio;
+import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "EmpleadoControlador", urlPatterns = { "/empleados" })
+@WebServlet(name = "EmpleadoControlador", urlPatterns = {"/empleados"})
 public class EmpleadoControlador extends HttpServlet {
 
     private final EmpeladoServicio empleadoServicio;
@@ -30,12 +31,25 @@ public class EmpleadoControlador extends HttpServlet {
                 new AreaRepositorio());
     }
 
+    private boolean verificarSesion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("empleado") == null) {
+            request.setAttribute("error", "Inicia sesión para acceder a esta página");
+            response.sendRedirect(request.getContextPath() + "/login");
+            return false;
+        }
+        return true;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<EmpleadoModelo> empleados = this.empleadoServicio.obtenerTodos();
-        request.setAttribute("empleados", empleados);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/empleados/EmpleadoInicio.jsp");
-        dispatcher.forward(request, response);
+        boolean estaAutenticado = this.verificarSesion(request, response);
+        if (estaAutenticado) {
+            ArrayList<EmpleadoModelo> empleados = this.empleadoServicio.obtenerTodos();
+            request.setAttribute("empleados", empleados);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/empleados/EmpleadoInicio.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 }

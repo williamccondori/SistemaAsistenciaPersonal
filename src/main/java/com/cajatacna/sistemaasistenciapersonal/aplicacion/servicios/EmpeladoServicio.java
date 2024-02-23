@@ -15,6 +15,7 @@ import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IGeneroRepos
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IRolRepositorio;
 
 public class EmpeladoServicio {
+
     private final IEmpleadoRepositorio empleadoRepositorio;
     private final IGeneroRepositorio generoRepositorio;
     private final IRolRepositorio rolRepositorio;
@@ -41,6 +42,12 @@ public class EmpeladoServicio {
         EmpleadoModelo modelo = new EmpleadoModelo();
         modelo.setId(empleado.getId());
         modelo.setEmail(empleado.getEmail());
+        modelo.setRolId(empleado.getRol().getId());
+
+        byte[] foto = empleado.getFoto();
+        if (foto.length > 0) {
+            modelo.setFotoBase64(Base64.getEncoder().encodeToString(foto));
+        }
 
         return modelo;
     }
@@ -56,14 +63,22 @@ public class EmpeladoServicio {
         modelo.setId(empleado.getId());
 
         byte[] foto = empleado.getFoto();
-        if (foto != null) {
+        if (foto.length > 0) {
             modelo.setFotoBase64(Base64.getEncoder().encodeToString(foto));
         }
 
         modelo.setNombre(empleado.getNombre());
         modelo.setApellido(empleado.getApellido());
+        modelo.setEmail(empleado.getEmail());
+        modelo.setFechaNacimiento(empleado.getFechaNacimiento());
+        modelo.setDireccion(empleado.getDireccion());
+        modelo.setTelefono(empleado.getTelefono());
+        modelo.setRolId(empleado.getRol().getId());
+        modelo.setAreaId(empleado.getArea().getId());
+        modelo.setGeneroId(empleado.getGenero().getId());
         modelo.setRol(empleado.getRol().getNombre());
         modelo.setArea(empleado.getArea().getNombre());
+        modelo.setGenero(empleado.getGenero().getNombre());
 
         return modelo;
     }
@@ -78,7 +93,7 @@ public class EmpeladoServicio {
             modelo.setId(empleado.getId());
 
             byte[] foto = empleado.getFoto();
-            if (foto != null) {
+            if (foto.length > 0) {
                 modelo.setFotoBase64(Base64.getEncoder().encodeToString(foto));
             }
 
@@ -149,7 +164,11 @@ public class EmpeladoServicio {
         empleado.setNombre(empleadoModelo.getNombre());
         empleado.setApellido(empleadoModelo.getApellido());
         empleado.setContrasena(empleadoModelo.getContrasena());
-        empleado.setFoto(empleadoModelo.getFoto());
+        if (empleadoModelo.getFoto().length > 0) {
+            empleado.setFoto(empleadoModelo.getFoto());
+        } else {
+            empleado.setFoto(empleado.getFoto());
+        }
         empleado.setFechaNacimiento(empleadoModelo.getFechaNacimiento());
         empleado.setDireccion(empleadoModelo.getDireccion());
         empleado.setTelefono(empleadoModelo.getTelefono());

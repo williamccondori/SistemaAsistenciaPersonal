@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Area;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Empleado;
+import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Genero;
 import com.cajatacna.sistemaasistenciapersonal.dominio.entidades.Rol;
 import com.cajatacna.sistemaasistenciapersonal.dominio.excepciones.AplicacionExcepcion;
 import com.cajatacna.sistemaasistenciapersonal.dominio.repositorios.IEmpleadoRepositorio;
@@ -55,17 +56,19 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             CallableStatement callableStatement = this.conexion
                     .prepareCall("CALL actualizar_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             callableStatement.setInt(1, empleado.getId());
-            callableStatement.setString(1, empleado.getNombre());
-            callableStatement.setString(2, empleado.getApellido());
-            callableStatement.setString(3, empleado.getContrasena());
-            callableStatement.setBytes(4, empleado.getFoto());
-            callableStatement.setString(5, empleado.getFechaNacimiento());
-            callableStatement.setInt(6, empleado.getGenero().getId());
-            callableStatement.setString(7, empleado.getDireccion());
-            callableStatement.setString(8, empleado.getTelefono());
-            callableStatement.setString(9, empleado.getEmail());
-            callableStatement.setInt(10, empleado.getRol().getId());
-            callableStatement.setInt(11, empleado.getArea().getId());
+            callableStatement.setString(2, empleado.getNombre());
+            callableStatement.setString(3, empleado.getApellido());
+            callableStatement.setString(4, empleado.getContrasena());
+            callableStatement.setBytes(5, empleado.getFoto());
+            callableStatement.setString(6, empleado.getFechaNacimiento());
+            callableStatement.setInt(7, empleado.getGenero().getId());
+            callableStatement.setString(8, empleado.getDireccion());
+            callableStatement.setString(9, empleado.getTelefono());
+            callableStatement.setString(10, empleado.getEmail());
+            callableStatement.setInt(11, empleado.getRol().getId());
+            callableStatement.setInt(12, empleado.getArea().getId());
+
+            callableStatement.execute();
         } catch (SQLException excpcion) {
             throw new AplicacionExcepcion(excpcion.getMessage());
         }
@@ -93,7 +96,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             ResultSet resultSet = callableStatement.executeQuery();
 
             if (resultSet.next()) {
-                return this.mapearUsuario(resultSet);
+                return this.mapearUsuario(resultSet, true);
             } else {
                 return null;
             }
@@ -113,7 +116,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             ResultSet resultSet = callableStatement.executeQuery();
 
             if (resultSet.next()) {
-                return this.mapearUsuario(resultSet);
+                return this.mapearUsuario(resultSet, false);
             } else {
                 return null;
             }
@@ -134,7 +137,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
             ArrayList<Empleado> empleados = new ArrayList<>();
 
             while (resultSet.next()) {
-                empleados.add(this.mapearUsuario(resultSet));
+                empleados.add(this.mapearUsuario(resultSet, true));
             }
 
             return empleados;
@@ -144,7 +147,7 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
         }
     }
 
-    private Empleado mapearUsuario(ResultSet resultSet) throws SQLException {
+    private Empleado mapearUsuario(ResultSet resultSet, boolean incluirPadres) throws SQLException {
         Empleado empleado = new Empleado();
         empleado.setId(resultSet.getInt("id"));
         empleado.setNombre(resultSet.getString("nombre"));
@@ -158,13 +161,20 @@ public class EmpleadoRepositorio implements IEmpleadoRepositorio {
 
         Rol rol = new Rol();
         rol.setId(resultSet.getInt("rol_id"));
-        rol.setNombre(resultSet.getString("rol"));
-        empleado.setRol(rol);
-
         Area area = new Area();
         area.setId(resultSet.getInt("area_id"));
-        area.setNombre(resultSet.getString("area"));
+        Genero genero = new Genero();
+        genero.setId(resultSet.getInt("genero_id"));
+
+        if (incluirPadres) {
+            rol.setNombre(resultSet.getString("rol"));
+            area.setNombre(resultSet.getString("area"));
+            genero.setNombre(resultSet.getString("genero"));
+        }
+
+        empleado.setRol(rol);
         empleado.setArea(area);
+        empleado.setGenero(genero);
 
         return empleado;
     }

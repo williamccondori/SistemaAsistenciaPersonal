@@ -17,8 +17,10 @@ import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositor
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.EmpleadoRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.GeneroRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.RolRepositorio;
+import javax.servlet.annotation.MultipartConfig;
 
-@WebServlet(name = "LoginControlador", urlPatterns = { "/login" })
+@WebServlet(name = "LoginControlador", urlPatterns = {"/login"})
+@MultipartConfig
 public class LoginControlador extends HttpServlet {
 
     private final EmpeladoServicio empleadoServicio;
@@ -42,12 +44,12 @@ public class LoginControlador extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            EmpleadoModelo empelado = this.empleadoServicio.autenticar(
-                    request.getParameter("email"),
-                    request.getParameter("password"));
+            EmpleadoModelo empelado = this.empleadoServicio.autenticar(request.getParameter("email"), request.getParameter("contrasena"));
             HttpSession session = request.getSession();
             session.setAttribute("empleado", empelado.getEmail());
-            response.sendRedirect(request.getContextPath());
+            session.setAttribute("rolId", empelado.getRolId());
+            session.setAttribute("foto", empelado.getFotoBase64());
+            response.sendRedirect(request.getContextPath() + "/asistencia");
         } catch (AplicacionExcepcion e) {
             request.setAttribute("error", e.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/login/LoginInicio.jsp");

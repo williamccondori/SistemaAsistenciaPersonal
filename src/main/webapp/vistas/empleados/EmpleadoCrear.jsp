@@ -1,7 +1,7 @@
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroModelo"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolModelo"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AreaModelo"%>
 <%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo"%>
-<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AreaRespuestaModelo"%>
-<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolRespuestaModelo"%>
-<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroRespuestaModelo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 
@@ -14,7 +14,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Crear emlpleado</title>
+        <title>Crear empleado</title>
 
         <!-- Custom fonts for this template-->
         <link href="<%=request.getContextPath()%>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -30,21 +30,20 @@
     </head>
     <body id="page-top">
         <div id="wrapper">
+
+            <!-- Sidebar -->
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=request.getContextPath()%>/asistencia"">
                     <div class="sidebar-brand-text mx-3">Sistema de asistencia</div>
                 </a>
                 <hr class="sidebar-divider my-0">
-
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/asistencia"">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Inicio</span>
                     </a>
                 </li>
-
                 <hr class="sidebar-divider">
-
                 <div class="sidebar-heading">
                     Maestros
                 </div>
@@ -65,33 +64,20 @@
                         </div>
                     </div>
                 </li>
-
                 <hr class="sidebar-divider">
-
                 <div class="sidebar-heading">
                     Asistencia
                 </div>
                 <li class="nav-item">
-                    <a class="nav-link" href="charts.html">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Charts</span></a>
-                </li>
-
-                <!-- Nav Item - Tables -->
-                <li class="nav-item">
-                    <a class="nav-link" href="tables.html">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/asistencia/registrar"">
                         <i class="fas fa-fw fa-table"></i>
-                        <span>Tables</span></a>
+                        <span>Registrar</span></a>
                 </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
-
-                <!-- Sidebar Toggler (Sidebar) -->
-                <div class="text-center d-none d-md-inline">
-                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                </div>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/asistencia/estadisticas"">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Estadísticas</span></a>
+                </li>
             </ul>
             <!-- End of Sidebar -->
 
@@ -103,24 +89,26 @@
 
                     <!-- Topbar -->
                     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                        <!-- Sidebar Toggle (Topbar) -->
                         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                             <i class="fa fa-bars"></i>
                         </button>
-
-                        <!-- Topbar Navbar -->
-                        <ul class="navbar-nav ml-auto"> 
-
-                            <!-- Nav Item - User Information -->
+                        <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                    <img class="img-profile rounded-circle"
-                                         src="img/undraw_profile.svg">
+                                    <%
+                                        String email = (String) session.getAttribute("empleado");
+                                        String foto = (String) session.getAttribute("foto");
+                                    %>
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                        <%=email%>
+                                    </span> 
+                                    <% if (foto != null) {%>
+                                    <img class="img-profile rounded-circle" src="data:image/jpeg;base64,<%=foto%>" alt="Foto de perfil">
+                                    <% } else {%>
+                                    <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/img/undraw_profile.svg" alt="Foto de perfil">
+                                    <% }%>
                                 </a>
-                                <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                      aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -129,9 +117,7 @@
                                     </a>
                                 </div>
                             </li>
-
                         </ul>
-
                     </nav>
                     <!-- End of Topbar -->
 
@@ -190,8 +176,8 @@
                                             <div class="form-group">
                                                 <label for="generoId">Género:</label>
                                                 <select class="form-control" id="generoId" name="generoId" required>
-                                                    <% ArrayList<GeneroRespuestaModelo> generos = (ArrayList<GeneroRespuestaModelo>) request.getAttribute("generos"); %>
-                                                    <% for (GeneroRespuestaModelo genero : generos) {%>
+                                                    <% ArrayList<GeneroModelo> generos = (ArrayList<GeneroModelo>) request.getAttribute("generos"); %>
+                                                    <% for (GeneroModelo genero : generos) {%>
                                                     <option value="<%=genero.getId()%>"><%=genero.getNombre()%></option>
                                                     <% } %> 
                                                 </select>
@@ -207,8 +193,8 @@
                                             <div class="form-group">
                                                 <label for="rolId">Rol:</label>
                                                 <select class="form-control" id="rolId" name="rolId" required>
-                                                    <% ArrayList<RolRespuestaModelo> roles = (ArrayList<RolRespuestaModelo>) request.getAttribute("roles"); %>
-                                                    <% for (RolRespuestaModelo rol : roles) {%>
+                                                    <% ArrayList<RolModelo> roles = (ArrayList<RolModelo>) request.getAttribute("roles"); %>
+                                                    <% for (RolModelo rol : roles) {%>
                                                     <option value="<%=rol.getId()%>"><%=rol.getNombre()%></option>
                                                     <% } %> 
                                                 </select>
@@ -216,8 +202,8 @@
                                             <div class="form-group">
                                                 <label for="areaId">Área:</label>
                                                 <select class="form-control" id="areaId" name="areaId" required>
-                                                    <% ArrayList<AreaRespuestaModelo> areas = (ArrayList<AreaRespuestaModelo>) request.getAttribute("areas"); %>
-                                                    <% for (AreaRespuestaModelo area : areas) {%>
+                                                    <% ArrayList<AreaModelo> areas = (ArrayList<AreaModelo>) request.getAttribute("areas"); %>
+                                                    <% for (AreaModelo area : areas) {%>
                                                     <option value="<%=area.getId()%>"><%=area.getNombre()%></option>
                                                     <% }%> 
                                                 </select>
@@ -265,15 +251,15 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">¿Está seguro de cerrar sesión?</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-body">Seleccione la opción "Cerrar sesión" parar terminar su sesión</div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="login.html">Logout</a>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <a class="btn btn-primary" href="<%=request.getContextPath()%>/logout">Cerrar sesión</a>
                     </div>
                 </div>
             </div>

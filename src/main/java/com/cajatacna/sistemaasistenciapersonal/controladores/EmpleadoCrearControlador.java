@@ -25,8 +25,9 @@ import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositor
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.EmpleadoRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.GeneroRepositorio;
 import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositorios.RolRepositorio;
+import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "EmpleadoCrearControlador", urlPatterns = { "/empleados/crear" })
+@WebServlet(name = "EmpleadoCrearControlador", urlPatterns = {"/empleados/crear"})
 @MultipartConfig
 public class EmpleadoCrearControlador extends HttpServlet {
 
@@ -46,6 +47,16 @@ public class EmpleadoCrearControlador extends HttpServlet {
         this.rolServicio = new RolServicio(new RolRepositorio());
     }
 
+    private boolean verificarSesion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("empleado") == null) {
+            request.setAttribute("error", "Inicia sesión para acceder a esta página");
+            response.sendRedirect(request.getContextPath() + "/login");
+            return false;
+        }
+        return true;
+    }
+
     private void enviarMaestros(HttpServletRequest request) {
         ArrayList<AreaModelo> areas = this.areaServicio.obtenerTodos();
         request.setAttribute("areas", areas);
@@ -58,39 +69,45 @@ public class EmpleadoCrearControlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        this.enviarMaestros(request);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/empleados/EmpleadoCrear.jsp");
-        dispatcher.forward(request, response);
+        boolean estaAutenticado = this.verificarSesion(request, response);
+        if (estaAutenticado) {
+            this.enviarMaestros(request);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/vistas/empleados/EmpleadoCrear.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            EmpleadoModelo empleado = new EmpleadoModelo();
-            empleado.setNombre(request.getParameter("nombre"));
-            empleado.setApellido(request.getParameter("apellido"));
-            empleado.setContrasena(request.getParameter("contrasena"));
-            empleado.setDireccion(request.getParameter("direccion"));
-            empleado.setTelefono(request.getParameter("telefono"));
-            empleado.setEmail(request.getParameter("email"));
-            empleado.setFechaNacimiento(request.getParameter("fechaNacimiento"));
-            empleado.setGeneroId(Utilidades.obtenerInt(request.getParameter("generoId")));
-            empleado.setRolId(Utilidades.obtenerInt(request.getParameter("rolId")));
-            empleado.setAreaId(Utilidades.obtenerInt(request.getParameter("areaId")));
-
+        boolean estaAutenticado = this.verificarSesion(request, response);
+        if (estaAutenticado) {
             try {
-                empleado.setFoto(Utilidades.obtenerBytesDePart(request.getPart("foto")));
-            } catch (ServletException | IOException e) {
-                throw new AplicacionExcepcion("Error al procesar el archivo");
+                EmpleadoModelo empleado = new EmpleadoModelo();
+                empleado.setNombre(request.getParameter("nombre"));
+                empleado.setApellido(request.getParameter("apellido"));
+                empleado.setContrasena(request.getParameter("contrasena"));
+                empleado.setDireccion(request.getParameter("direccion"));
+                empleado.setTelefono(request.getParameter("telefono"));
+                empleado.setEmail(request.getParameter("email"));
+                empleado.setFechaNacimiento(request.getParameter("fechaNacimiento"));
+                empleado.setGeneroId(Utilidades.obtenerInt(request.getParameter("generoId")));
+                empleado.setRolId(Utilidades.obtenerInt(request.getParameter("rolId")));
+                empleado.setAreaId(Utilidades.obtenerInt(request.getParameter("areaId")));
+
+                try {
+                    empleado.setFoto(Utilidades.obtenerBytesDePart(request.getPart("foto")));
+                } catch (ServletException | IOException e) {
+                    throw new AplicacionExcepcion("Error al procesar el archivo");
+                }
+
+                this.empleadoServicio.crear(empleado);
+
+                response.sendRedirect(request.getContextPath() + "/empleados?estado=OK");
+            } catch (AplicacionExcepcion e) {
+                request.setAttribute("error", e.getMessage());
+                this.doGet(request, response);
             }
-
-            this.empleadoServicio.crear(empleado);
-
-            response.sendRedirect(request.getContextPath() + "/empleados?estado=OK");
-        } catch (AplicacionExcepcion e) {
-            request.setAttribute("error", e.getMessage());
-            this.doGet(request, response);
         }
     }
 }

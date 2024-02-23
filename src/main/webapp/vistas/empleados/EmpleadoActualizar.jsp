@@ -1,9 +1,13 @@
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroModelo"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolModelo"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AreaModelo"%>
 <%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo"%>
-<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AreaRespuestaModelo"%>
-<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolRespuestaModelo"%>
-<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroRespuestaModelo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
+
+<%
+    EmpleadoModelo empleado = (EmpleadoModelo) request.getAttribute("empleado");
+%>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -14,7 +18,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Actualizar emlpleado</title>
+        <title>Actualizar empleado</title>
 
         <!-- Custom fonts for this template-->
         <link href="<%=request.getContextPath()%>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -30,21 +34,20 @@
     </head>
     <body id="page-top">
         <div id="wrapper">
+
+            <!-- Sidebar -->
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=request.getContextPath()%>/asistencia"">
                     <div class="sidebar-brand-text mx-3">Sistema de asistencia</div>
                 </a>
                 <hr class="sidebar-divider my-0">
-
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/asistencia"">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Inicio</span>
                     </a>
                 </li>
-
                 <hr class="sidebar-divider">
-
                 <div class="sidebar-heading">
                     Maestros
                 </div>
@@ -65,33 +68,20 @@
                         </div>
                     </div>
                 </li>
-
                 <hr class="sidebar-divider">
-
                 <div class="sidebar-heading">
                     Asistencia
                 </div>
                 <li class="nav-item">
-                    <a class="nav-link" href="charts.html">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Charts</span></a>
-                </li>
-
-                <!-- Nav Item - Tables -->
-                <li class="nav-item">
-                    <a class="nav-link" href="tables.html">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/asistencia/registrar"">
                         <i class="fas fa-fw fa-table"></i>
-                        <span>Tables</span></a>
+                        <span>Registrar</span></a>
                 </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
-
-                <!-- Sidebar Toggler (Sidebar) -->
-                <div class="text-center d-none d-md-inline">
-                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                </div>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/asistencia/estadisticas"">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Estadísticas</span></a>
+                </li>
             </ul>
             <!-- End of Sidebar -->
 
@@ -103,48 +93,26 @@
 
                     <!-- Topbar -->
                     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                        <!-- Sidebar Toggle (Topbar) -->
                         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                             <i class="fa fa-bars"></i>
                         </button>
-
-                        <!-- Topbar Navbar -->
                         <ul class="navbar-nav ml-auto">
-
-                            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                            <li class="nav-item dropdown no-arrow d-sm-none">
-                                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-search fa-fw"></i>
-                                </a>
-                                <!-- Dropdown - Messages -->
-                                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                     aria-labelledby="searchDropdown">
-                                    <form class="form-inline mr-auto w-100 navbar-search">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control bg-light border-0 small"
-                                                   placeholder="Search for..." aria-label="Search"
-                                                   aria-describedby="basic-addon2">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary" type="button">
-                                                    <i class="fas fa-search fa-sm"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>
-
-                            <!-- Nav Item - User Information -->
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                    <img class="img-profile rounded-circle"
-                                         src="img/undraw_profile.svg">
+                                    <%
+                                        String email = (String) session.getAttribute("empleado");
+                                        String foto = (String) session.getAttribute("foto");
+                                    %>
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                        <%=email%>
+                                    </span> 
+                                    <% if (foto != null) {%>
+                                    <img class="img-profile rounded-circle" src="data:image/jpeg;base64,<%=foto%>" alt="Foto de perfil">
+                                    <% } else {%>
+                                    <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/img/undraw_profile.svg" alt="Foto de perfil">
+                                    <% }%>
                                 </a>
-                                <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                      aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -153,9 +121,7 @@
                                     </a>
                                 </div>
                             </li>
-
                         </ul>
-
                     </nav>
                     <!-- End of Topbar -->
 
@@ -176,17 +142,7 @@
                             }
                         %>
 
-                        <%
-                            EmpleadoModelo empleado = (EmpleadoModelo) request.getAttribute("empleado");
-                            if (empleado == null) {
-                        %>
-                        <div class="alert alert-danger">
-                            No se ha encontrado información del usuario.
-                        </div>
-                        <%
-                        } else {
-                        %>
-
+                        <% if (empleado != null) {%>
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -195,18 +151,19 @@
                             <div class="card-body"> 
                                 <form action="<%=request.getContextPath()%>/empleados/actualizar" method="post" enctype="multipart/form-data">
                                     <div class="row">
-                                        <div class="col-md-6"> 
+                                        <div class="col-md-6">
+                                            <input type="hidden" name="id" value="<%=empleado.getId()%>">
                                             <div class="form-group">
                                                 <label for="nombre">Nombre:</label>
-                                                <input type="text" class="form-control" id="nombre" name="nombre" required value="<% empleado.getNombre(); %>">
+                                                <input type="text" class="form-control" id="nombre" name="nombre" required value="<%=empleado.getNombre()%>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="apellido">Apellido:</label>
-                                                <input type="text" class="form-control" id="apellido" name="apellido" required value="<% empleado.getApellido(); %>">
+                                                <input type="text" class="form-control" id="apellido" name="apellido" required value="<%=empleado.getApellido()%>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="email">Correo:</label>
-                                                <input type="email" class="form-control" id="email" name="email" required value="<% empleado.getEmail(); %>">
+                                                <input type="email" class="form-control" id="email" name="email" required value="<%=empleado.getEmail()%>">
                                             </div> 
                                             <div class="form-group">
                                                 <label for="contrasena">Contraseña:</label>
@@ -216,45 +173,54 @@
                                                 <label for="foto">Foto:</label>
                                                 <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
                                                 <small class="form-text text-muted">Subir foto del empleado.</small>
+                                                <% if (empleado.getFotoBase64() != null) {%>
+                                                <img class="img-profile rounded-circle" src="data:image/jpeg;base64,<%= empleado.getFotoBase64()%>" alt="Foto de perfil" width="50" height="50">
+                                                <% } else {%>
+                                                <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/img/undraw_profile.svg" alt="Foto de perfil" width="50" height="50">
+                                                <% }%>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="fechaNacimiento">Fecha de nacimiento:</label>
-                                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required value="<% empleado.getFechaNacimiento(); %>">
+                                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required value="<%=empleado.getFechaNacimiento()%>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="generoId">Género:</label>
                                                 <select class="form-control" id="generoId" name="generoId" required>
-                                                    <% ArrayList<GeneroRespuestaModelo> generos = (ArrayList<GeneroRespuestaModelo>) request.getAttribute("generos"); %>
-                                                    <% for (GeneroRespuestaModelo genero : generos) {%>
-                                                    <option value="<%=genero.getId()%>"><%=genero.getNombre()%></option>
-                                                    <% } %> 
+                                                    <% ArrayList<GeneroModelo> generos = (ArrayList<GeneroModelo>) request.getAttribute("generos"); %>
+                                                    <% for (GeneroModelo genero : generos) {%>
+                                                    <option value="<%=genero.getId()%>" <% if (genero.getId() == empleado.getGeneroId()) {%> selected <% } %>>
+                                                            <%=genero.getNombre()%>
+                                                    </option>
+                                                    <% }%> 
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="direccion">Dirección:</label>
-                                                <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                                <input type="text" class="form-control" id="direccion" name="direccion" required value="<%=empleado.getDireccion()%>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="telefono">Teléfono:</label>
-                                                <input type="text" class="form-control" id="telefono" name="telefono" required>
+                                                <input type="text" class="form-control" id="telefono" name="telefono" required value="<%=empleado.getTelefono()%>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="rolId">Rol:</label>
                                                 <select class="form-control" id="rolId" name="rolId" required>
-                                                    <% ArrayList<RolRespuestaModelo> roles = (ArrayList<RolRespuestaModelo>) request.getAttribute("roles"); %>
-                                                    <% for (RolRespuestaModelo rol : roles) {%>
-                                                    <option value="<%=rol.getId()%>"><%=rol.getNombre()%></option>
-                                                    <% } %> 
+                                                    <% ArrayList<RolModelo> roles = (ArrayList<RolModelo>) request.getAttribute("roles"); %>
+                                                    <% for (RolModelo rol : roles) {%>
+                                                    <option value="<%=rol.getId()%>" <% if (rol.getId() == empleado.getRolId()) {%> selected <% } %>>
+                                                            <%=rol.getNombre()%></option>
+                                                    <% }%> 
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="areaId">Área:</label>
                                                 <select class="form-control" id="areaId" name="areaId" required>
-                                                    <% ArrayList<AreaRespuestaModelo> areas = (ArrayList<AreaRespuestaModelo>) request.getAttribute("areas"); %>
-                                                    <% for (AreaRespuestaModelo area : areas) {%>
-                                                    <option value="<%=area.getId()%>"><%=area.getNombre()%></option>
+                                                    <% ArrayList<AreaModelo> areas = (ArrayList<AreaModelo>) request.getAttribute("areas"); %>
+                                                    <% for (AreaModelo area : areas) {%>
+                                                    <option value="<%=area.getId()%>" <% if (area.getId() == empleado.getAreaId()) {%> selected <% } %>>
+                                                            <%=area.getNombre()%></option>
                                                     <% }%> 
                                                 </select>
                                             </div>
@@ -268,9 +234,13 @@
                             </div>
                         </div>
 
-                        <%
-                            }
-                        %>
+                        <% } else {%>
+                        <div class="alert alert-danger">
+                            No se encontró el empleado.
+                            <a href="<%=request.getContextPath()%>/empleados" class="btn btn-danger">Regresar</a>
+                        </div>
+                        <% }%>
+
                     </div>
                     <!-- /.container-fluid -->
 
@@ -304,15 +274,15 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">¿Está seguro de cerrar sesión?</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-body">Seleccione la opción "Cerrar sesión" parar terminar su sesión</div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="login.html">Logout</a>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <a class="btn btn-primary" href="<%=request.getContextPath()%>/logout">Cerrar sesión</a>
                     </div>
                 </div>
             </div>

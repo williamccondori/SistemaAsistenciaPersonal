@@ -1,6 +1,14 @@
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroModelo"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.RolModelo"%>
 <%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AreaModelo"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+
+<%
+    EmpleadoModelo empleado = (EmpleadoModelo) request.getAttribute("empleado");
+%>
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -10,18 +18,18 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Áreas</title>
+        <title>Eliminar empleado</title>
 
         <!-- Custom fonts for this template-->
-        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link href="<%=request.getContextPath()%>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
               rel="stylesheet">
 
         <!-- Custom styles for this template-->
-        <link href="css/sb-admin-2.css" rel="stylesheet">
+        <link href="<%=request.getContextPath()%>/css/sb-admin-2.css" rel="stylesheet">
 
         <!-- Custom styles for this page -->
-        <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <link href="<%=request.getContextPath()%>/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     </head>
     <body id="page-top">
@@ -53,8 +61,8 @@
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Empleados</h6>
-                            <a class="collapse-item" href="<%=request.getContextPath()%>/empleados">Empleados</a>
-                            <a class="collapse-item active" href="<%=request.getContextPath()%>/areas">Áreas</a>
+                            <a class="collapse-item active" href="<%=request.getContextPath()%>/empleados">Empleados</a>
+                            <a class="collapse-item" href="<%=request.getContextPath()%>/areas">Áreas</a>
                             <a class="collapse-item" href="<%=request.getContextPath()%>/roles">Roles</a>
                             <a class="collapse-item" href="<%=request.getContextPath()%>/generos">Géneros</a>
                         </div>
@@ -121,38 +129,42 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-4 text-gray-800">Áreas</h1>
+                        <h1 class="h3 mb-4 text-gray-800">Eliminar empleado</h1>
+
+                        <%
+                            String mensajeError = (String) request.getAttribute("error");
+                            if (mensajeError != null && !mensajeError.isEmpty()) {
+                        %>
+                        <div class="alert alert-danger">
+                            <%= mensajeError%>
+                        </div>
+                        <%
+                            }
+                        %>
+
+                        <% if (empleado != null) {%>
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Todas las áreas</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Registro</h6>
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Código</th>
-                                                <th>Nombre</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <%
-                                                ArrayList<AreaModelo> areas = (ArrayList<AreaModelo>) request.getAttribute("areas");
-                                                for (AreaModelo area : areas) {
-                                            %>
-                                            <tr>
-                                                <td><%= area.getId()%></td>
-                                                <td><%= area.getNombre()%></td>
-                                            </tr>
-                                            <%
-                                                }
-                                            %>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="card-body"> 
+                                <form action="<%=request.getContextPath()%>/empleados/eliminar" method="post" enctype="multipart/form-data">
+                                    <div class="col-md-12">
+                                        <input type="hidden" name="id" value="<%=empleado.getId()%>">
+                                        <button type="submit" class="btn btn-primary">Eliminar</button>
+                                        <a href="<%=request.getContextPath()%>/empleados" class="btn btn-secondary">Regresar</a>
+                                    </div> 
+                                </form>
                             </div>
                         </div>
+
+                        <% } else {%>
+                        <div class="alert alert-danger">
+                            No se encontró el empleado.
+                            <a href="<%=request.getContextPath()%>/empleados" class="btn btn-danger">Regresar</a>
+                        </div>
+                        <% }%>
 
                     </div>
                     <!-- /.container-fluid -->
@@ -202,21 +214,21 @@
         </div>
 
         <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="<%=request.getContextPath()%>/vendor/jquery/jquery.min.js"></script>
+        <script src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="<%=request.getContextPath()%>/vendor/jquery-easing/jquery.easing.min.js"></script>
 
         <!-- Custom scripts for all pages-->
-        <script src="js/sb-admin-2.min.js"></script>
+        <script src="<%=request.getContextPath()%>/js/sb-admin-2.min.js"></script>
 
         <!-- Page level plugins -->
-        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="<%=request.getContextPath()%>/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="<%=request.getContextPath()%>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
         <!-- Page level custom scripts -->
-        <script src="js/demo/datatables-demo.js"></script>
+        <script src="<%=request.getContextPath()%>/js/demo/datatables-demo.js"></script>
 
     </body>
 </html>
