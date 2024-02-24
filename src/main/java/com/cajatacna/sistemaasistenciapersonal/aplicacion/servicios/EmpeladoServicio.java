@@ -101,6 +101,7 @@ public class EmpeladoServicio {
             modelo.setApellido(empleado.getApellido());
             modelo.setRol(empleado.getRol().getNombre());
             modelo.setArea(empleado.getArea().getNombre());
+            modelo.setGenero(empleado.getGenero().getNombre());
             modelos.add(modelo);
         });
 

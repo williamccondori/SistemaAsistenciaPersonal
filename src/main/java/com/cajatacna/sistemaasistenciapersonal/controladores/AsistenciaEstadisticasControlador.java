@@ -25,7 +25,7 @@ import com.cajatacna.sistemaasistenciapersonal.infraestructura.mariadb.repositor
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-@WebServlet(name = "AsistenciaEstadisticasControlador", urlPatterns = { "/asistencia/estadisticas" })
+@WebServlet(name = "AsistenciaEstadisticasControlador", urlPatterns = {"/asistencia/estadisticas"})
 @MultipartConfig
 public class AsistenciaEstadisticasControlador extends HttpServlet {
 
@@ -63,26 +63,29 @@ public class AsistenciaEstadisticasControlador extends HttpServlet {
             throws ServletException, IOException {
         boolean estaAutenticado = this.verificarSesion(request, response);
         if (estaAutenticado) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat();
             String fechaInicioS = request.getParameter("fechaInicio");
             String fechaFinS = request.getParameter("fechaFin");
 
-            Date fechaInicio = new Date();
-            Date fechaFin = new Date();
+            Date fechaInicio = null;
+            Date fechaFin = null;
 
-            if (fechaInicioS != null) {
-                try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            try {
+                if (fechaInicioS != null && !fechaInicioS.isEmpty()) {
                     fechaInicio = dateFormat.parse(fechaInicioS);
-                } catch (ParseException e) {
                 }
+
+                if (fechaFinS != null && !fechaFinS.isEmpty()) {
+                    fechaFin = dateFormat.parse(fechaFinS);
+                }
+            } catch (ParseException e) {
+                fechaInicio = new Date();
+                fechaFin = new Date();
             }
 
-            if (fechaFinS != null) {
-                try {
-                    fechaFin = dateFormat.parse(fechaFinS);
-                } catch (ParseException e) {
-                }
-            }
+            request.setAttribute("fechaInicio", fechaInicio);
+            request.setAttribute("fechaFin", fechaFin);
 
             ArrayList<AsistenciaModelo> asistencias = this.asistenciaServicio.obtenerPorFechas(fechaInicio, fechaFin);
             request.setAttribute("asistencias", asistencias);

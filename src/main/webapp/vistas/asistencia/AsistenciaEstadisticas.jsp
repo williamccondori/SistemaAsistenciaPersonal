@@ -1,3 +1,5 @@
+<%@page import="com.fasterxml.jackson.databind.ObjectMapper"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AsistenciaModelo"%>
 <%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -136,6 +138,29 @@
                                 <h6 class="m-0 font-weight-bold text-primary">Todos las asistencias</h6>
                             </div>
                             <div class="card-body">
+                                <form method="get" class="mb-4">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="fechaInicio">Fecha de inicio:</label>
+                                                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" value="<%= request.getAttribute("fechaInicio")%>">
+                                            </div> 
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="fechaFin">Fecha de fin:</label>
+                                                <input type="date" class="form-control" id="fechaFin" name="fechaFin" value="<%= request.getAttribute("fechaFin")%>">
+                                            </div> 
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary">
+                                                Buscar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
@@ -150,24 +175,26 @@
                                         </thead>
                                         <tbody>
                                             <%
+                                                ArrayList<AsistenciaModelo> asistencias = (ArrayList<AsistenciaModelo>) request.getAttribute("asistencias");
                                                 ArrayList<EmpleadoModelo> empleados = (ArrayList<EmpleadoModelo>) request.getAttribute("empleados");
-                                                if (empleados == null) {
-                                                    empleados = new ArrayList<>();
+                                                if (asistencias == null) {
+                                                    asistencias = new ArrayList<>();
                                                 }
-                                                for (EmpleadoModelo empleado : empleados) {
+                                                for (AsistenciaModelo asistencia : asistencias) {
                                             %>
                                             <tr>
-                                                <td><%= empleado.getId()%></td>
+                                                <td><%= asistencia.getEmpleado().getNombre()%> <%= asistencia.getEmpleado().getApellido()%></td>
                                                 <td>
-                                                    <% if (empleado.getFotoBase64() != null) {%>
-                                                    <img class="img-profile rounded-circle" src="data:image/jpeg;base64,<%= empleado.getFotoBase64()%>" alt="Foto de perfil" width="50" height="50">
+                                                    <% if (asistencia.getEmpleado().getFotoBase64() != null) {%>
+                                                    <img class="img-profile rounded-circle" src="data:image/jpeg;base64,<%= asistencia.getEmpleado().getFotoBase64()%>" alt="Foto de perfil" width="50" height="50">
                                                     <% } else {%>
                                                     <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/img/undraw_profile.svg" alt="Foto de perfil" width="50" height="50">
                                                     <% }%>
                                                 </td>
-                                                <td><%= empleado.getNombre()%></td>
-                                                <td><%= empleado.getApellido()%></td>
-                                                <td><%= empleado.getRol()%></td>
+                                                <td><%= asistencia.getEmpleado().getArea()%></td>
+                                                <td><%= asistencia.getFecha()%></td>
+                                                <td><%= asistencia.getHoraEntrada()%></td>
+                                                <td><%= asistencia.getHoraSalida()%></td>
                                             </tr>
                                             <%
                                                 }
@@ -177,6 +204,67 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+
+                            <div class="col-6"> 
+                                <div class="card shadow mb-4" >
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Resumen de ASISTENCIAS</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="asistenciasChart" ></canvas>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6"> 
+                                <div class="card shadow mb-4" >
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Resumen de ASISTENCIAS SIN HORA DE SALIDA</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="asistencias2Chart"></canvas>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-4"> 
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Empleados por ÁREA</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="areaChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">  
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Empleados por ROL</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="rolChart"></canvas>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">  
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Empleados por GÉNERO</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="generoChart"></canvas>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
                     <!-- /.container-fluid -->
@@ -242,5 +330,144 @@
         <!-- Page level custom scripts -->
         <script src="<%=request.getContextPath()%>/js/demo/datatables-demo.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+        <script>
+            <%
+                ObjectMapper objectMapper = new ObjectMapper();
+                String asistenciasJSON = objectMapper.writeValueAsString(asistencias);
+                String empleadosJSON = objectMapper.writeValueAsString(empleados);
+            %>
+            var asistenciasArray = <%= asistenciasJSON%>;
+            var empleados = <%= empleadosJSON%>;
+
+            // Contadores para el número de empleados por área y por rol
+            var areaCount = {};
+            var rolCount = {};
+            var generoCount = {};
+
+            // Contar empleados por área y por rol
+            empleados.forEach(item => {
+                areaCount[item.area] = (areaCount[item.area] || 0) + 1;
+                rolCount[item.rol] = (rolCount[item.rol] || 0) + 1;
+                generoCount[item.genero] = (generoCount[item.rol] || 0) + 1;
+            });
+
+            // Obtener los valores para los gráficos
+            var areaLabels = Object.keys(areaCount);
+            var areaValues = Object.values(areaCount);
+
+            var rolLabels = Object.keys(rolCount);
+            var rolValues = Object.values(rolCount);
+
+            var generoLabels = Object.keys(generoCount);
+            var generoValues = Object.values(generoCount);
+
+            // Configuración del gráfico de pastel para el número de empleados por área
+            var areaChart = new Chart(document.getElementById('areaChart').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: areaLabels,
+                    datasets: [{
+                            data: areaValues,
+                            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                        }]
+                }
+            });
+
+            // Configuración del gráfico de pastel para el número de empleados por rol
+            var rolChart = new Chart(document.getElementById('rolChart').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: rolLabels,
+                    datasets: [{
+                            data: rolValues,
+                            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                        }]
+                }
+            });
+
+            // Configuración del gráfico de pastel para el número de empleados por genero
+            var generoChart = new Chart(document.getElementById('generoChart').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: generoLabels,
+                    datasets: [{
+                            data: generoValues,
+                            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                        }]
+                }
+            });
+
+            // Contar asistencias por fecha
+            var asistenciasPorFecha = {};
+            asistenciasArray.forEach(asistencia => {
+                var fecha = new Date(asistencia.fecha).toLocaleDateString();
+                asistenciasPorFecha[fecha] = (asistenciasPorFecha[fecha] || 0) + 1;
+            });
+
+            // Obtener los valores para el gráfico de barras
+            var fechas = Object.keys(asistenciasPorFecha);
+            var asistencias = Object.values(asistenciasPorFecha);
+
+            // Configuración del gráfico de barras para las asistencias
+            var asistenciasChart = new Chart(document.getElementById('asistenciasChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: fechas,
+                    datasets: [{
+                            label: 'Asistencias',
+                            data: asistencias,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+
+            // Contar asistencias sin hora de salida por fecha
+            var asistenciasSinHoraSalidaPorFecha = {};
+            asistenciasArray.forEach(asistencia => {
+                if (asistencia.horaSalida === null || asistencia.horaSalida === undefined) {
+                    var fecha = new Date(asistencia.fecha).toLocaleDateString();
+                    asistenciasSinHoraSalidaPorFecha[fecha] = (asistenciasSinHoraSalidaPorFecha[fecha] || 0) + 1;
+                }
+            });
+
+            // Obtener los valores para el gráfico de barras
+            var fechas = Object.keys(asistenciasSinHoraSalidaPorFecha);
+            var asistencias = Object.values(asistenciasSinHoraSalidaPorFecha);
+
+            // Configuración del gráfico de barras para las asistencias sin hora de salida
+            var asistenciasChart = new Chart(document.getElementById('asistencias2Chart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: fechas,
+                    datasets: [{
+                            label: 'Asistencias sin Hora de Salida',
+                            data: asistencias,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
     </body>
 </html>
