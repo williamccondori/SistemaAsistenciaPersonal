@@ -1,6 +1,7 @@
-<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.GeneroModelo"%>
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.EmpleadoModelo"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -10,7 +11,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Géneros</title>
+        <title>Empleado</title>
 
         <!-- Custom fonts for this template-->
         <link href="<%=request.getContextPath()%>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -27,12 +28,12 @@
     <body id="page-top">
         <div id="wrapper">
 
-        
-           <%
-                                        String email = (String) session.getAttribute("empleado");
-                                        String foto = (String) session.getAttribute("foto");
-                                        int rolId = (int) session.getAttribute("rolId");
-                                    %>
+
+            <%
+                String email = (String) session.getAttribute("empleado");
+                String foto = (String) session.getAttribute("foto");
+                int rolId = (int) session.getAttribute("rolId");
+            %>
 
             <!-- Sidebar -->
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -57,14 +58,14 @@
                         <i class="fas fa-fw fa-user"></i>
                         <span>Empleados</span>
                     </a>
-                    <div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities"
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Empleados</h6>
                             <a class="collapse-item" href="<%=request.getContextPath()%>/empleados">Empleados</a>
                             <a class="collapse-item" href="<%=request.getContextPath()%>/areas">Áreas</a>
                             <a class="collapse-item" href="<%=request.getContextPath()%>/roles">Roles</a>
-                            <a class="collapse-item active" href="<%=request.getContextPath()%>/generos">Géneros</a>
+                            <a class="collapse-item" href="<%=request.getContextPath()%>/generos">Géneros</a>
                         </div>
                     </div>
                 </li>
@@ -79,7 +80,7 @@
                         <span>Registrar</span></a>
                 </li>
                 <% if (rolId == 1) {%>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="<%=request.getContextPath()%>/asistencia/estadisticas"">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>Estadísticas</span></a>
@@ -92,7 +93,7 @@
             <div id="content-wrapper" class="d-flex flex-column">
 
                 <!-- Main Content -->
-                <div id="content"> 
+                <div id="content">
 
                     <!-- Topbar -->
                     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -128,29 +129,45 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-4 text-gray-800">Géneros</h1>
+                        <h1 class="h3 mb-4 text-gray-800">Estadísticas</h1>
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Todos los géneros</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Todos las asistencias</h6>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Código</th>
-                                                <th>Nombre</th>
+                                                <th>Empleado</th>
+                                                <th>Foto</th>
+                                                <th>Área</th>
+                                                <th>Fecha</th>
+                                                <th>Hora de entrada</th>
+                                                <th>Hora de salida</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <%
-                                                ArrayList<GeneroModelo> generos = (ArrayList<GeneroModelo>) request.getAttribute("generos");
-                                                for (GeneroModelo genero : generos) {
+                                                ArrayList<EmpleadoModelo> empleados = (ArrayList<EmpleadoModelo>) request.getAttribute("empleados");
+                                                if (empleados == null) {
+                                                    empleados = new ArrayList<>();
+                                                }
+                                                for (EmpleadoModelo empleado : empleados) {
                                             %>
                                             <tr>
-                                                <td><%= genero.getId()%></td>
-                                                <td><%= genero.getNombre()%></td>
+                                                <td><%= empleado.getId()%></td>
+                                                <td>
+                                                    <% if (empleado.getFotoBase64() != null) {%>
+                                                    <img class="img-profile rounded-circle" src="data:image/jpeg;base64,<%= empleado.getFotoBase64()%>" alt="Foto de perfil" width="50" height="50">
+                                                    <% } else {%>
+                                                    <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/img/undraw_profile.svg" alt="Foto de perfil" width="50" height="50">
+                                                    <% }%>
+                                                </td>
+                                                <td><%= empleado.getNombre()%></td>
+                                                <td><%= empleado.getApellido()%></td>
+                                                <td><%= empleado.getRol()%></td>
                                             </tr>
                                             <%
                                                 }

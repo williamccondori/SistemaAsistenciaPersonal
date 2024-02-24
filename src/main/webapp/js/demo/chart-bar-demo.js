@@ -36,7 +36,7 @@ var myBarChart = new Chart(ctx, {
     datasets: [{
       label: "Revenue",
       backgroundColor: "#C62828",
-      hoverBackgroundColor: "#2e59d9",
+      hoverBackgroundColor: "#C82828",
       borderColor: "#C62828",
       data: [4215, 5312, 6251, 7841, 9821, 14984],
     }],

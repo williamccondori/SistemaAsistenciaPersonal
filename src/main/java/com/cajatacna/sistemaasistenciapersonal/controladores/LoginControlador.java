@@ -46,6 +46,7 @@ public class LoginControlador extends HttpServlet {
         try {
             EmpleadoModelo empelado = this.empleadoServicio.autenticar(request.getParameter("email"), request.getParameter("contrasena"));
             HttpSession session = request.getSession();
+            session.setAttribute("empleadoId", empelado.getId());
             session.setAttribute("empleado", empelado.getEmail());
             session.setAttribute("rolId", empelado.getRolId());
             session.setAttribute("foto", empelado.getFotoBase64());

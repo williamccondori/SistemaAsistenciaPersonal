@@ -27,6 +27,12 @@
     <body id="page-top">
         <div id="wrapper">
 
+
+           <%
+                                        String email = (String) session.getAttribute("empleado");
+                                        String foto = (String) session.getAttribute("foto");
+                                        int rolId = (int) session.getAttribute("rolId");
+                                    %>
             <!-- Sidebar -->
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=request.getContextPath()%>/asistencia"">
@@ -39,6 +45,7 @@
                         <span>Inicio</span>
                     </a>
                 </li>
+                <% if (rolId == 1) {%>
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">
                     Maestros
@@ -60,6 +67,7 @@
                         </div>
                     </div>
                 </li>
+                <% }%>
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">
                     Asistencia
@@ -69,11 +77,13 @@
                         <i class="fas fa-fw fa-table"></i>
                         <span>Registrar</span></a>
                 </li>
+                <% if (rolId == 1) {%>
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/asistencia/estadisticas"">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>Estadísticas</span></a>
                 </li>
+                <% }%>
             </ul>
             <!-- End of Sidebar -->
 
@@ -92,10 +102,7 @@
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <%
-                                        String email = (String) session.getAttribute("empleado");
-                                        String foto = (String) session.getAttribute("foto");
-                                    %>
+                             
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                         <%=email%>
                                     </span> 

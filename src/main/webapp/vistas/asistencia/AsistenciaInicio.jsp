@@ -1,3 +1,4 @@
+<%@page import="com.cajatacna.sistemaasistenciapersonal.aplicacion.modelos.AsistenciaModelo"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -26,6 +27,12 @@
     <body id="page-top">
         <div id="wrapper">
 
+            <%
+                String email = (String) session.getAttribute("empleado");
+                String foto = (String) session.getAttribute("foto");
+                int rolId = (int) session.getAttribute("rolId");
+            %>
+
             <!-- Sidebar -->
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=request.getContextPath()%>/asistencia"">
@@ -38,6 +45,8 @@
                         <span>Inicio</span>
                     </a>
                 </li>
+
+                <% if (rolId == 1) {%>
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">
                     Maestros
@@ -59,6 +68,7 @@
                         </div>
                     </div>
                 </li>
+                <% }%>
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">
                     Asistencia
@@ -68,11 +78,14 @@
                         <i class="fas fa-fw fa-table"></i>
                         <span>Registrar</span></a>
                 </li>
+
+                <% if (rolId == 1) {%>
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/asistencia/estadisticas"">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>Estadísticas</span></a>
                 </li>
+                <% }%>
             </ul>
             <!-- End of Sidebar -->
 
@@ -91,10 +104,7 @@
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <%
-                                        String email = (String) session.getAttribute("empleado");
-                                        String foto = (String) session.getAttribute("foto");
-                                    %>
+
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                         <%=email%>
                                     </span> 
@@ -120,17 +130,50 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-4 text-gray-800">Sistema de Asistencia</h1>
+                        <h1 class="h3 mb-4 text-gray-800">Bienvenido al Sistema de Asistencia</h1> 
+                        <%
+                            String mensajeError = (String) request.getAttribute("error");
+                            if (mensajeError != null && !mensajeError.isEmpty()) {
+                        %>
+                        <div class="alert alert-danger">
+                            <%= mensajeError%>
+                        </div>
+                        <%
+                            }
+                        %>
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Tareas</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Mi asistencia</h6>
                             </div>
                             <div class="card-body">
-
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha</th>
+                                                <th>Hora de entrada</th>
+                                                <th>Hora de salida</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                ArrayList<AsistenciaModelo> asistencias = (ArrayList<AsistenciaModelo>) request.getAttribute("asistencias");
+                                                for (AsistenciaModelo a : asistencias) {
+                                            %>
+                                            <tr>
+                                                <td><%= a.getFecha()%></td>
+                                                <td><%= a.getHoraEntrada()%></td>
+                                                <td><%= a.getHoraSalida()%></td>
+                                            </tr>
+                                            <%
+                                                }
+                                            %>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                     <!-- /.container-fluid -->
 

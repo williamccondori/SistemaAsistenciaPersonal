@@ -53,6 +53,13 @@ public class EmpleadoActualizarControlador extends HttpServlet {
             request.setAttribute("error", "Inicia sesión para acceder a esta página");
             response.sendRedirect(request.getContextPath() + "/login");
             return false;
+        } else {
+            int rolId = (int) session.getAttribute("rolId");
+            if (rolId != 1) {
+                request.setAttribute("error", "No tienes permisos para acceder a esta página");
+                response.sendRedirect(request.getContextPath() + "/asistencia");
+                return false;
+            }
         }
         return true;
     }
