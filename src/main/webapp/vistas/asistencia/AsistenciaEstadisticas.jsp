@@ -143,13 +143,13 @@
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="fechaInicio">Fecha de inicio:</label>
-                                                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" value="<%= request.getAttribute("fechaInicio")%>">
+                                                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
                                             </div> 
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="fechaFin">Fecha de fin:</label>
-                                                <input type="date" class="form-control" id="fechaFin" name="fechaFin" value="<%= request.getAttribute("fechaFin")%>">
+                                                <input type="date" class="form-control" id="fechaFin" name="fechaFin">
                                             </div> 
                                         </div>
                                         <div class="col-12">

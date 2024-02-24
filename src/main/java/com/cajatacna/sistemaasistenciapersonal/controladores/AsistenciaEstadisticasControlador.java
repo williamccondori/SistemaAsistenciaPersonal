@@ -74,18 +74,19 @@ public class AsistenciaEstadisticasControlador extends HttpServlet {
             try {
                 if (fechaInicioS != null && !fechaInicioS.isEmpty()) {
                     fechaInicio = dateFormat.parse(fechaInicioS);
+                } else {
+                    fechaInicio = new Date();
                 }
 
                 if (fechaFinS != null && !fechaFinS.isEmpty()) {
                     fechaFin = dateFormat.parse(fechaFinS);
+                } else {
+                    fechaFin = new Date();
                 }
             } catch (ParseException e) {
                 fechaInicio = new Date();
                 fechaFin = new Date();
             }
-
-            request.setAttribute("fechaInicio", fechaInicio);
-            request.setAttribute("fechaFin", fechaFin);
 
             ArrayList<AsistenciaModelo> asistencias = this.asistenciaServicio.obtenerPorFechas(fechaInicio, fechaFin);
             request.setAttribute("asistencias", asistencias);
